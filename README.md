@@ -68,6 +68,7 @@ egrep其实就是grep的扩展版
    third
 
 ###sort
+
 - `-r` sort in descending order (reverse sort) sort 
 
 - `-n` numerically rather than lexicographically dictionary 
