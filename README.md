@@ -14,7 +14,7 @@ Shell 正则表达式(BRE)
 -  `u*` 表示字母u可能出现或者不出现的匹配模式的文本中
 
   - 且如果出现前有多个字符的情况AB*只表示B可能出现或者不出现
-  
+
   (在字符后面放置星号标明该字符必须在匹配模式的版本中出现0次或者多次)
 
 ### cat
@@ -58,6 +58,33 @@ egrep其实就是grep的扩展版
   - Lab01 question中有一道题利用此条命令
 
     - grep -P '^(A(?1)?B)$' input.txt (AABB)
+
+###cut
+
+- `-f` print only the specificed filed
+- `-c` print only chars in the specificed filed
+- `-d'c'` use character c as the filed separator
+   - `cut -f4-` 两个杠表示 print all colums after the
+   third
+
+###sort
+- `-r` sort in descending order (reverse sort) sort 
+
+- `-n` numerically rather than lexicographically dictionary 
+
+- `-d`order: ignore non-letters and non-digits use character 
+
+- `-t’c’` c to separate columns (default: space)
+
+- `-kn’`sort on column n
+ 
+###uniq
+
+- `-c` print number of times each line is duplicated
+- `-d` only print duplicated line
+- `-u` only print lines that occur uniquely(once only)
+
+
 
     
 
