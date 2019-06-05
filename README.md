@@ -11,6 +11,8 @@ Shell 正则表达式(BRE)
 
 -  `u*` 表示字母u可能出现或者不出现的匹配模式的文本中
 
+  - 且如果出现前有多个字符的情况AB*只表示B可能出现或者不出现
+  
   (在字符后面放置星号标明该字符必须在匹配模式的版本中出现0次或者多次)
 
 ### cat
@@ -50,8 +52,14 @@ tr ’sourceChars’ ’destChars’ < dataFile
 egrep其实就是grep的扩展版
 
 - `grep -P` Perl-like extended regular expressions
+
   - Lab01 question中有一道题利用此条命令
+
     - grep -P '^(A(?1)?B)$' input.txt (AABB)
+
+    
+
+     
 
 
 
