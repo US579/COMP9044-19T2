@@ -67,7 +67,6 @@ egrep其实就是grep的扩展版
    - `cut -f4-` 两个杠表示 print all colums after the
    third
 
-
 ###sort
 
 - `-r` sort in descending order (reverse sort) sort 
@@ -80,7 +79,7 @@ egrep其实就是grep的扩展版
 
 - `-kn’`sort on column n
  
- 
+
 ###uniq
 
 - `-c` print number of times each line is duplicated
