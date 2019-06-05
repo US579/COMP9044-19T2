@@ -34,8 +34,8 @@ tr ’sourceChars’ ’destChars’ < dataFile
 - `-c` map all characters not occurring in sourceChars
 - `-s` squeeze adjacent repeated characters out(only copy the first)
 - `-d` delete all characters in sourceChars
-- * Example 
-  * tr -cs ’a-zA-Z0-9’ ’\n’ < text (break text file into individual words, one per line)
+  - Example 
+    - tr -cs ’a-zA-Z0-9’ ’\n’ < text (break text file into individual words, one per line)
 
 ### head/tail
 
@@ -50,8 +50,8 @@ tr ’sourceChars’ ’destChars’ < dataFile
 egrep其实就是grep的扩展版
 
 - `grep -P` Perl-like extended regular expressions
-- * Lab01 question中有一道题利用此条命令
-  * * grep -P '^(A(?1)?B)$' input.txt (AABB)
+  - Lab01 question中有一道题利用此条命令
+    - grep -P '^(A(?1)?B)$' input.txt (AABB)
 
 
 
