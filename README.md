@@ -10,6 +10,9 @@ Shell 正则表达式(BRE)
 - `|` 表示 or
 
 - `+` 表示前面的字符可以出现1次或者多次,但必须出现至少1次
+   - '([0-9]+,)*'
+
+      - 2,4,8,16,32
 
 -  `u*` 表示字母u可能出现或者不出现的匹配模式的文本中
 
@@ -86,9 +89,15 @@ egrep其实就是grep的扩展版
 - `-d` only print duplicated line
 - `-u` only print lines that occur uniquely(once only)
 
+### xargs
+
+- remove home directories of users named Andrew:
+
+     -grep Andrew /etc/passwd | cut -d: -f6 | xargs rm -r
+
+### join
 
 
-    
 
     
 
