@@ -94,8 +94,16 @@ egrep其实就是grep的扩展版
 - remove home directories of users named Andrew:
 
      -grep Andrew /etc/passwd | cut -d: -f6 | xargs rm -r
+        - 1. 通过grep /etc/passwd 中的关键字 
+        - 2. 在通过cut来获取关键字后的路径 
+        - 3. 删除路径中的文件
 
 ### join
+
+-  `join -a 1 P.txt Q.txt` 
+   - Print non pairable lines from first file.
+      - 打印出不同的
+
 
 
 
