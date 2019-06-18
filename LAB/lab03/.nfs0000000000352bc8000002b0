@@ -1,8 +1,0 @@
-#!/bin/bash
-suffix=".png"
-for file in *.jpg
-do
-   name=`echo $file | cut -d"." -f1`
-   png=$name$suffix
-   convert $file $name
-done
