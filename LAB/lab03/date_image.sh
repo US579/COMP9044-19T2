@@ -15,7 +15,8 @@ do
   then
       echo "file $temp is exist"
   else
-      convert -gravity south -pointsize 36 -draw "text 0,10 '$date'" $file $temp
+      convert -gravity south -pointsize 36 -draw "text 0,10 '$date'" "$file" "$temp"
       touch -r "$file" "$temp"
       mv "$temp"  "$file" 
+  fi
 done
