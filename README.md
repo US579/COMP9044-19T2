@@ -104,6 +104,9 @@ egrep其实就是grep的扩展版
    - Print non pairable lines from first file.
       - 打印出不同的
 
+# matcher
+1. `tr -d '[]"#'`
+   - delete `[]"#` in the string
 
 
 

@@ -10,10 +10,20 @@ do
     then
         temp=`echo "$line" | egrep -o "(Triple J Hottest 100, )+[0-9]{4}"`
         album=`echo "$temp" | sed "s/.*\[\[//;s/\|.*//"`
-        echo "$album"
         year=`echo $album | sed 's/.*, //'`
-        echo $year
-        mkdir -p -m 755 "$dir/Triple J Hottest 100, $year"
+        #mkdir -p -m 755 "$dir/Triple J Hottest 100, $year"
     fi
+    time=1
+    while read line && test $time -lt 10
+    do
+        if !([[ "$line" =~ ^# ]])
+        then
+            continue
+        else
+            temp=`echo "$line" |sed "s/[^[]*//" | tr -d '[]"#'`
+
+        fi
+
+done
 done
 
