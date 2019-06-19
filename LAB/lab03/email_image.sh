@@ -8,10 +8,9 @@ fi
 
 for file in $@
 do
-   echo 'Address to e-mail this image to?'
-   read addr
-   echo 'Message to accompany image?'
-   read message
+   read -p 'Address to e-mail this image to? '  addr
+   read -p  'Message to accompany image? ' message
+ 
    name=`echo $file | sed "s/\.jpg//"`
    echo "$message" | mutt -s "$name!" -e 'set copy=no' -a "$file" -- "$addr"
    echo ---------------------------------
