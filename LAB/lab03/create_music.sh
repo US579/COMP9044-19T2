@@ -26,11 +26,11 @@ do
             continue
         fi
         tem=`echo "$line" |sed "s/[^[]*//" | tr -d '[]"#'`
-  #          echo "$tem"
+        echo "$tem"
         artist=`echo "$tem" | sed 's/–.*//' | sed "s/^[ ]*//;s/[ ]*$//"`
         title=`echo "$tem" | sed 's/.*–//'| sed "s/^[ ]*//;s/[ ]*$//"`
         echo "$artist"
- #           echo "$title"
+        echo "$title"
         file="$fil/$time - $title - $artist.mp3"
         cp -p "$sample" "$file"
         time=$(( time + 1 ))    
