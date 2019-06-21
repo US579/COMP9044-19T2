@@ -2,7 +2,8 @@
 
 if [[ $# == 0 ]]
 then 
-   echo "useage : $0 <file1 file2 ... file n>"
+   echo "useage : $0 <file1.c file2.c ... file n.c>"
+   exit 1
 fi
 
 for file in $@
