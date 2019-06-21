@@ -1,4 +1,5 @@
 # Prerequisites
+.nfs*
 *.d
 .DS_Store
 # Object files
