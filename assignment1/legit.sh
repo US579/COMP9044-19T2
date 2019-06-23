@@ -41,17 +41,18 @@ init() {
     fi
 }
 
-pp() {
-echo "asdasdasdas"
-}
 
-
-#Subset 0
-# function add
+# Subset 0
+# function 2 add
 # adds the contents of one or more files to the "index"
 
 add() 
-{
+{   
+    if  test "$#" -eq 1 
+    then 
+        echo "Maybe you wanted to say 'git add .'?"
+        exit 1
+    fi 
     if test -e  $legitdir
     then
         if !( test -e "$fullpath/$indexdir" )
@@ -67,8 +68,8 @@ add()
                 continue
             elif [[ $file =~ [^a-zA-Z0-9\.\_\-] || $file =~ ^[^a-zA-Z0-9] ]]
             then
-              echo "legit-add: error: invalid filename '$file'"
-              continue 
+                echo "legit-add: error: invalid filename '$file'"
+                continue 
             else
                 cp "$file" "$fullpath/$indexdir"
             fi 
@@ -79,12 +80,26 @@ add()
     fi
 }
 
+# Subset 0
+# Function 2 commit
+# Saves a copy of all files in the index to the repository
+commit()
+{
+    if test "$#" -eq 1
+    then
+        echo "usage: legit-commit [-a] -m commit-message"
+        exit 1
+    fi
+    
 
+
+}
 
 case "$1" in 
     "add" ) add $@;;
     "pp" ) pp ;;
     "init" ) init ;;
+    "commit" ) commit $@;;
     *) error ;;
 esac
 
