@@ -64,12 +64,14 @@ add()
             if !( test -e "$file" )
             then
                 echo "legit-add: error: can not open '$file'"
-                exit 1
-            elif [[ $file =~ /[^a-zA-Z0-9\.\_\-]/ || $file =~ /^[a-zA-Z0-9]/ ]]
+                continue
+            elif [[ $file =~ [^a-zA-Z0-9\.\_\-] || $file =~ ^[^a-zA-Z0-9] ]]
             then
               echo "legit-add: error: invalid filename '$file'"
-              exit 1 
-            fi
+              continue 
+            else
+                cp "$file" "$fullpath/$indexdir"
+            fi 
         done
     else
         echo  "legit.pl: error: no $legitdir directory containing legit repository exists"
