@@ -3,16 +3,15 @@
 if (@ARGV>0 && $ARGV[0] =~ /-\d+/){
    $ARGV[0] =~ s/-//;
    $num=$ARGV[0];
+   shift @ARGV;
 }else{
    $num=10;
 }
 
 
 
-if (@ARGV==1){
-  open my $f, '<', $ARGV[0] or die "$0: can't open $ARGV[0]\n";
-  @line=<$f>;
-  shift @ARGV;
+if (@ARGV==0){
+  @line=<>;
   while(@line>$num){
     shift @line;
   }
