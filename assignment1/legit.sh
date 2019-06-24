@@ -83,17 +83,35 @@ add()
 # Subset 0
 # Function 2 commit
 # Saves a copy of all files in the index to the repository
+
+last_commit()
+{
+    count=0
+    while ( test $count -ge 0 )
+    do
+        if [ -d "$fullpath/.commit_$count" ]
+        then
+            count=$(( count+1 ))
+        else
+            return $count
+        fi
+    done
+}
+
 commit()
 {
-    if test "$#" -eq 1
+    if ([[ "$2" =~ '-m' && $3 ]])
     then
+        last_commit
+        last_num="$?"
+        echo $last_num
+    else 
         echo "usage: legit-commit [-a] -m commit-message"
         exit 1
-    fi
-    
-
-
+    fi 
 }
+
+
 
 case "$1" in 
     "add" ) add $@;;
