@@ -38,7 +38,7 @@ add()
             fi
         done
     else
-        echo  "legit.pl: error: no $legitdir directory containing legit repository exists"
+        echo  "legit-add: error: no $legitdir directory containing legit repository exists"
         exit 1
     fi
 }

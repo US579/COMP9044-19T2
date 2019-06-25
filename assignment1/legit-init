@@ -13,7 +13,7 @@ indexdir="objects"
 init() {
     if test -e  $legitdir
     then
-        echo "$0: error: $legitdir already exists"
+        echo "legit-init: error: $legitdir already exists"
     else
         mkdir "$legitdir"
         mkdir "$legitdir/$sub_legitdir"
