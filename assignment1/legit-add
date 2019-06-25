@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/dash
 
 legitdir='.legit'
 sub_legitdir='.git'
@@ -23,7 +23,7 @@ add()
         then
             mkdir "$fullpath/$indexdir"
         fi
-        for file in ${@:1}
+        for file in $@
         do
             if !( test -e "$file" )
             then
