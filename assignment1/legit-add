@@ -1,10 +1,8 @@
-#!/bin/bash
-
+#!/bin/dash
 legitdir='.legit'
 sub_legitdir='.git'
 fullpath="$legitdir/$sub_legitdir"
 indexdir="objects"
-
 
 # Subset 0
 # function 2 add
@@ -29,7 +27,11 @@ add()
             then
                 echo "legit-add: error: can not open '$file'"
                 continue
-            elif ( $file =~ [^a-zA-Z0-9\.\_\-] || $file =~ ^[^a-zA-Z0-9] ))
+            elif (echo "$file" | egrep -v '[a-zA-Z0-9\.\_\-]')
+            then
+                echo "legit-add: error: invalid filename '$file'"
+                continue
+            elif (echo "$file" | egrep -v '^[a-zA-Z0-9]')
             then
                 echo "legit-add: error: invalid filename '$file'"
                 continue
@@ -44,3 +46,8 @@ add()
 }
 
 add $@ 
+
+
+
+
+
