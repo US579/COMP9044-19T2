@@ -1,0 +1,46 @@
+#!/bin/bash
+
+legitdir='.legit'
+sub_legitdir='.git'
+fullpath="$legitdir/$sub_legitdir"
+indexdir="objects"
+
+
+# Subset 0
+# function 2 add
+# adds the contents of one or more files to the "index"
+
+add()
+{
+    if  test "$#" -eq 0
+    then
+        echo "Maybe you wanted to say 'git add .'?"
+        exit 1
+    fi
+    if test -e  $legitdir
+    then
+        if !( test -e "$fullpath/$indexdir" )
+        then
+            mkdir "$fullpath/$indexdir"
+        fi
+        for file in ${@:1}
+        do
+            if !( test -e "$file" )
+            then
+                echo "legit-add: error: can not open '$file'"
+                continue
+            elif [[ $file =~ [^a-zA-Z0-9\.\_\-] || $file =~ ^[^a-zA-Z0-9] ]]
+            then
+                echo "legit-add: error: invalid filename '$file'"
+                continue
+            else
+                cp "$file" "$fullpath/$indexdir"
+            fi
+        done
+    else
+        echo  "legit.pl: error: no $legitdir directory containing legit repository exists"
+        exit 1
+    fi
+}
+
+add $@ 

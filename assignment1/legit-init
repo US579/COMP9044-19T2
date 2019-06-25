@@ -1,0 +1,24 @@
+#!/bin/bash
+
+legitdir='.legit'
+sub_legitdir='.git'
+fullpath="$legitdir/$sub_legitdir"
+indexdir="objects"
+
+
+# Subset 0
+# function 1 inti
+# initial the implicit folder ".legit/.git"
+
+init() {
+    if test -e  $legitdir
+    then
+        echo "$0: error: $legitdir already exists"
+    else
+        mkdir "$legitdir"
+        mkdir "$legitdir/$sub_legitdir"
+        echo "Initialized empty legit repository in .legit"
+    fi
+}
+
+init
