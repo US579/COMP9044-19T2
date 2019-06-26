@@ -4,7 +4,6 @@ legitdir='.legit'
 sub_legitdir='.git'
 fullpath="$legitdir/$sub_legitdir"
 indexdir="objects"
-flag=0
 # Subset 0
 # Function 2 commit
 # Saves a copy of all files in the index to the repository
@@ -28,7 +27,7 @@ file_compare()
 {   
     filename=".commit_$1"
     dir="$fullpath/$filename"
-    echo "$dir"
+    #echo "$dir"
     #iterate the diractory to find differnt file 
     for f in `ls ${dir}`
         do  
@@ -40,37 +39,34 @@ file_compare()
                 diff "$index_file" "$dir/$f" >/dev/null
                 if [ $? != 0 ]
                 then
-                #    echo "$index_file"
-                #    echo "$dir/$f"
-                 #   echo `diff $dir/$f $index_file`
-                    echo "different *******"
                     return 1
                 else
-                    echo "same"
+                   # echo "same"
+                    continue
                 fi 
             fi 
         done
     #reverse iterate to find different file
     for ff in `ls "$fullpath/$indexdir/"`
     do
-        echo "$ff"
+       # echo "$ff"
         obiect_dir="$dir/$ff"
         if [ ! -f $obiect_dir ]
         then
-            echo "not exist in $dir"
+            #echo "$ff not exist in $dir"
             return 1
         else
-            diff "$dir/$ff" "$obiect_dir" 
+            diff "$dir/$ff" "$obiect_dir" >/dev/null  
             if [ $? != 0 ]
             then
-                echo 'differnet ___--------'
+             #   echo 'differnet--------'
                 return 1
             else
-                echo "same+++++++++"
+              #  echo "same+++++++++"
+              continue
             fi
         fi    
-    done
-
+    done 
 }
 
 
@@ -86,13 +82,31 @@ commit()
         commitseq 
         last_num="$?" 
         commitdir="$fullpath/.commit_$last_num"
-        mkdir $commitdir 
-        echo "$2" > "$fullpath/.commit_$last_num/.commit_message"
+        #if  [ ! -d $fullpath/.commit_0 ]
+        #then
+        #    echo "asdasd"
+        #fi
+        #if ([ "`ls $fullpath/$indexdir`" != "" ])
+        #then
+         #   echo "&&&&&&&&&&&&&"
+        #fi
+        if ( [ ! -d $fullpath/.commit_0 ] && [ "`ls $fullpath/$indexdir`" != "" ])
+        then
+            mkdir $fullpath/.commit_0
+            cp $fullpath/$indexdir/* $commitdir
+            echo "Committed as commit $last_num"
+            exit 0
+        fi
+
         pre_seq=$((last_num-1))
-        file_compare $pre_seq 
-        echo "singal is $?"
-        if (test  $? -eq 0  )
+        file_compare $pre_seq
+        flag=$?
+       # echo "singal is $flag"
+        #echo $last_num
+        if ( test  $flag -eq 1 )
         then 
+            mkdir $commitdir
+            echo "$2" > "$fullpath/.commit_$last_num/.commit_message"
             cp $fullpath/$indexdir/* $commitdir 
             echo "Committed as commit $last_num"
         else
