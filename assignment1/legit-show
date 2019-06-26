@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 # written by Wanze Liu
 
 legitdir='.legit'
@@ -53,8 +53,9 @@ show()
    #     echo "legit-show: error: unknown commit '$num'"
    #     exit 1
    # fi
-   if [ "$num" == "" ]
-   then 
+   #if [ "$num" == "" ]
+   if [ -z "$num" ] 
+    then 
         commitseq 
         last_num="$?"
         pre_seq=$((last_num-1))
