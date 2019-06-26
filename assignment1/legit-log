@@ -19,6 +19,7 @@ log()
         #echo "$num $message"
     done
     len=${#array[*]}
+    echo $len
     for ((i=$len-1;i>=0;i--))
     do
         echo  "$i ${array[$i]}"
