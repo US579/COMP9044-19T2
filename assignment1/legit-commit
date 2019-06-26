@@ -79,7 +79,7 @@ commit()
     fi
 #echo "$1"
 #echo $#
-    if (( echo $# | egrep "2" ) && ( echo "$1" | egrep "\-m" ) ) >/dev/null
+   if ( ( test $# -ge 2 ) && ( echo "$1" | egrep "\-m" ) ) >/dev/null
     then
         commitseq 
         last_num="$?" 
