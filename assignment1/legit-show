@@ -25,10 +25,34 @@ show()
     if !( test $# -eq 1 )
     then 
         echo "usage: legit-show <commit>:<filename>"
+        exit 1
     elif ( echo "$1" | grep -v ":" ) > /dev/null
     then
         echo "legit-show: error: invalid object $1"
+        exit 1
     fi
+    # get the version number and filename
+    filename=`echo $1 | sed "s/.*://"`
+    num=`echo $1 | sed "s/:.*//"`
+    #aviod invalid input
+    if !( echo "$num" | egrep "^[0-9]+$")>/dev/null
+    then
+        echo "legit-show: error: unknown commit '$num'"
+        exit 1
+    fi
+    if [ ! -d $fullpath/.commit_$num ]
+    then
+        echo "legit-show: error: unknown commit '$num'"
+        exit 1
+    fi
+    if [ ! -f $fullpath/.commit_$num/$filename ]
+    then
+        echo "legit-show: error: '$filename' not found in commit $num"
+        exit 1
+    fi
+    
+    cat $fullpath/.commit_$num/$filename 
+
 
 }
 
