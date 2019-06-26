@@ -22,8 +22,14 @@ show()
         echo 'legit-show: error: your repository does not have any commits yet'
         exit 1
     fi
-
+    if !( test $# -eq 1 )
+    then 
+        echo "usage: legit-show <commit>:<filename>"
+    elif ( echo "$1" | grep -v ":" ) > /dev/null
+    then
+        echo "legit-show: error: invalid object $1"
+    fi
 
 }
 
-show() $@
+show $@
