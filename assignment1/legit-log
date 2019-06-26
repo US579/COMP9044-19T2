@@ -10,6 +10,25 @@ indexdir="objects"
 
 log()
 {
+    if [ ! -d $fullpath ]
+    then
+        echo "legit-log: error: no .legit directory containing legit repository exists"
+        exit 1
+    fi
+
+    flag=0
+    for file in $1/.commit*
+    do 
+        flag=1
+    done
+    if ( flag==0 )
+    then 
+        echo 'legit-log: error: your repository does not have any commits yet'
+        exit 1
+    fi
+
+
+
     for file in $1/.commit*
     do
         num=`echo $file | sed "s/.*_//"`
