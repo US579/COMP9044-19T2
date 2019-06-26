@@ -4,7 +4,7 @@ legitdir='.legit'
 sub_legitdir='.git'
 fullpath="$legitdir/$sub_legitdir"
 indexdir="objects"
-
+flag=0
 # Subset 0
 # Function 2 commit
 # Saves a copy of all files in the index to the repository
@@ -22,35 +22,65 @@ commitseq()
         fi
     done
 }
-#num=0
-#n=$((num+1))
-#for i in `ls $fullpath/.commit_$n`
-##do
-  #  echo "$i#"
-#don#e
+
 
 file_compare()
 {   
-    isexist=0
-    commitseq 
-    cur="$?"
-    pre_seq=$((cur-1))
-    filename=".commit_$pre_seq"
-#    if !(test $cur -eq 0 )
- #   then
-    dir=$fullpath/$filename 
+    filename=".commit_$1"
+    dir="$fullpath/$filename"
     echo "$dir"
+    #iterate the diractory to find differnt file 
     for f in `ls ${dir}`
-        do
-            echo $f
+        do  
+            index_file="$fullpath/$indexdir/$f"
+            if [ ! -f $index_file ]
+            then
+                return 1
+            else
+                diff "$index_file" "$dir/$f" >/dev/null
+                if [ $? != 0 ]
+                then
+                #    echo "$index_file"
+                #    echo "$dir/$f"
+                 #   echo `diff $dir/$f $index_file`
+                    echo "different *******"
+                    return 1
+                else
+                    echo "same"
+                fi 
+            fi 
         done
+    #reverse iterate to find different file
+    for ff in `ls "$fullpath/$indexdir/"`
+    do
+        echo "$ff"
+        obiect_dir="$dir/$ff"
+        if [ ! -f $obiect_dir ]
+        then
+            echo "not exist in $dir"
+            return 1
+        else
+            diff "$dir/$ff" "$obiect_dir" 
+            if [ $? != 0 ]
+            then
+                echo 'differnet ___--------'
+                return 1
+            else
+                echo "same+++++++++"
+            fi
+        fi    
+    done
 
-  #  fi
 }
 
 
 commit()
 {
+    if [ ! -d $fullpath ]
+    then 
+        echo "legit-commit: error: no .legit directory containing legit repository exists"
+        exit 1
+    fi
     if ([[ "$1" =~ '-m' && $2 ]])
     then
         commitseq 
@@ -58,7 +88,8 @@ commit()
         commitdir="$fullpath/.commit_$last_num"
         mkdir $commitdir 
         echo "$2" > "$fullpath/.commit_$last_num/.commit_message"
-        file_compare
+        pre_seq=$((last_num-1))
+        file_compare $pre_seq 
         echo "singal is $?"
         if (test  $? -eq 0  )
         then 
