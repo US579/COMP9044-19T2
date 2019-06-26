@@ -26,6 +26,10 @@ add()
             if !( test -e "$file" )
             then
                 echo "legit-add: error: can not open '$file'"
+                if ( test -e "$fullpath/$indexdir/$file")
+                then 
+                    rm "$fullpath/$indexdir/$file"
+                fi
                 continue
             elif ( (echo "$file" | egrep -v '[_a-zA-Z0-9\.\-]') || (echo "$file" | egrep -v '^[a-zA-Z0-9]') ) >/dev/null
             then
