@@ -10,7 +10,6 @@ indexdir="objects"
 
 log()
 {
-
     if [ ! -d $fullpath ]
     then
         echo "legit-log: error: no .legit directory containing legit repository exists"
