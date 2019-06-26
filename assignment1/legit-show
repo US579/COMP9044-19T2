@@ -53,9 +53,18 @@ show()
    #     echo "legit-show: error: unknown commit '$num'"
    #     exit 1
    # fi
-   if !([ "$num" == "" ])
+   if [ "$num" == "" ]
    then 
-    
+        commitseq 
+        last_num="$?"
+        pre_seq=$((last_num-1))
+        if [ ! -f $fullpath/.commit_$pre_seq/$filename ]
+        then
+            echo "legit-show: error: '$filename' not found in commit $num"
+            exit 1
+        fi 
+        cat $fullpath/.commit_$pre_seq/$filename 
+    else
         if [ ! -d $fullpath/.commit_$num ]
         then
              echo "legit-show: error: unknown commit '$num'"
@@ -67,16 +76,6 @@ show()
             exit 1
         fi
         cat $fullpath/.commit_$num/$filename
-    else
-        commitseq 
-        last_num="$?"
-        pre_seq=$((last_num-1))
-        if [ ! -f $fullpath/.commit_$pre_seq/$filename ]
-        then
-            echo "legit-show: error: '$filename' not found in commit $num"
-            exit 1
-        fi 
-        cat $fullpath/.commit_$pre_seq/$filename 
    fi 
 
 }
