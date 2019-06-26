@@ -9,6 +9,19 @@ indexdir="objects"
 # Subset 0
 # function 4 log
 # The legit­show should print the contents of the specified file as of the specified commit. If the commit is omitted the contents of the file in the index should be printed.
+commitseq()
+{
+    count=0
+    while ( test $count -ge 0 )
+    do
+        if [ -d "$fullpath/.commit_$count" ]
+        then
+            count=$(( count+1 ))
+        else
+            return $count
+        fi
+    done
+}
 
 show()
 {
@@ -40,7 +53,7 @@ show()
    #     echo "legit-show: error: unknown commit '$num'"
    #     exit 1
    # fi
-   if ![ "$num" == "" ]
+   if !([ "$num" == "" ])
    then 
     
         if [ ! -d $fullpath/.commit_$num ]
@@ -54,8 +67,16 @@ show()
             exit 1
         fi
         cat $fullpath/.commit_$num/$filename
-    else  
-        cat $fullpath/.commit_$num/$filename 
+    else
+        commitseq 
+        last_num="$?"
+        pre_seq=$((last_num-1))
+        if [ ! -f $fullpath/.commit_$pre_seq/$filename ]
+        then
+            echo "legit-show: error: '$filename' not found in commit $num"
+            exit 1
+        fi 
+        cat $fullpath/.commit_$pre_seq/$filename 
    fi 
 
 }
