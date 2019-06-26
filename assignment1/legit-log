@@ -10,9 +10,15 @@ indexdir="objects"
 
 log()
 {
-    if [ ! -d $fullpath/$indexdir ]
+
+    if [ ! -d $fullpath ]
     then
         echo "legit-log: error: no .legit directory containing legit repository exists"
+        exit 1
+
+    elif [ ! -d $fullpath/$indexdir ]
+    then
+        echo 'legit-log: error: your repository does not have any commits yet'
         exit 1
     fi
 
