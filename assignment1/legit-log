@@ -18,16 +18,14 @@ log()
 
     flag=0
     for file in $1/.commit*
-    do 
+    do
         flag=1
     done
-    if ( flag==0 )
+    if ( test  $flag -eq 0 )
     then 
         echo 'legit-log: error: your repository does not have any commits yet'
         exit 1
     fi
-
-
 
     for file in $1/.commit*
     do
@@ -38,7 +36,6 @@ log()
         #echo "$num $message"
     done
     len=${#array[*]}
-    echo $len
     for ((i=$len-1;i>=0;i--))
     do
         echo  "$i ${array[$i]}"
