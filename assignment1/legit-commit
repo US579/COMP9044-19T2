@@ -9,7 +9,7 @@ indexdir="objects"
 # Function 2 commit
 # Saves a copy of all files in the index to the repository
 
-last_commit()
+commitseq()
 {
     count=0
     while ( test $count -ge 0 )
@@ -22,15 +22,51 @@ last_commit()
         fi
     done
 }
+#num=0
+#n=$((num+1))
+#for i in `ls $fullpath/.commit_$n`
+##do
+  #  echo "$i#"
+#don#e
+
+file_compare()
+{   
+    isexist=0
+    commitseq 
+    cur="$?"
+    pre_seq=$((cur-1))
+    filename=".commit_$pre_seq"
+#    if !(test $cur -eq 0 )
+ #   then
+    dir=$fullpath/$filename 
+    echo "$dir"
+    for f in `ls ${dir}`
+        do
+            echo $f
+        done
+
+  #  fi
+}
+
 
 commit()
 {
     if ([[ "$1" =~ '-m' && $2 ]])
     then
-        last_commit
-        last_num="$?"
-        echo $last_num
-          
+        commitseq 
+        last_num="$?" 
+        commitdir="$fullpath/.commit_$last_num"
+        mkdir $commitdir 
+        echo "$2" > "$fullpath/.commit_$last_num/.commit_message"
+        file_compare
+        echo "singal is $?"
+        if (test  $? -eq 0  )
+        then 
+            cp $fullpath/$indexdir/* $commitdir 
+            echo "Committed as commit $last_num"
+        else
+            echo "nothing to commit"
+        fi
     else
         echo "usage: legit-commit [-a] -m commit-message"
         exit 1
