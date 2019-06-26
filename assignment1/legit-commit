@@ -1,5 +1,10 @@
 #!/bin/bash
 
+legitdir='.legit'
+sub_legitdir='.git'
+fullpath="$legitdir/$sub_legitdir"
+indexdir="objects"
+
 # Subset 0
 # Function 2 commit
 # Saves a copy of all files in the index to the repository
@@ -25,6 +30,7 @@ commit()
         last_commit
         last_num="$?"
         echo $last_num
+          
     else
         echo "usage: legit-commit [-a] -m commit-message"
         exit 1
