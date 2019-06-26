@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 
 legitdir='.legit'
 sub_legitdir='.git'
@@ -92,11 +92,12 @@ commit()
         #then
          #   echo "&&&&&&&&&&&&&"
         #fi
-        if ( [ ! -d $fullpath/.commit_0 ] && [ "`ls $fullpath/$indexdir`" != "" ])
+        if ( [ ! -d $fullpath/.commit_0 ] && [ "`ls $fullpath/$indexdir`" != "" ]) 
         then
             mkdir $fullpath/.commit_0
             echo "$2" > "$fullpath/.commit_$last_num/.commit_message"
             cp $fullpath/$indexdir/* $commitdir
+            echo "COMMIT:$last_num" >> $fullpath/Branch.master
             echo "Committed as commit $last_num"
             exit 0
         fi
@@ -111,6 +112,7 @@ commit()
             mkdir $commitdir
             echo "$2" > "$fullpath/.commit_$last_num/.commit_message"
             cp $fullpath/$indexdir/* $commitdir 
+            echo "COMMIT:$last_num" >> $fullpath/Branch.master
             echo "Committed as commit $last_num"
         else
             echo "nothing to commit"
