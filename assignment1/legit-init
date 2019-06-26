@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/bash
 
 legitdir='.legit'
 sub_legitdir='.git'
