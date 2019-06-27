@@ -8,6 +8,43 @@ indexdir="objects"
 # Function 2 commit
 # Saves a copy of all files in the index to the repository
 
+add()
+{
+    if  test "$#" -eq 0
+    then
+        echo "Maybe you wanted to say 'git add .'?"
+        exit 1
+    fi
+    if test -e  $legitdir
+    then
+        if !( test -e "$fullpath/$indexdir" )
+        then
+            mkdir "$fullpath/$indexdir"
+        fi
+        for file in $@
+        do
+            if !( test -e "$file" )
+            then
+                echo "legit-add: error: can not open '$file'"
+                if ( test -e "$fullpath/$indexdir/$file")
+                then
+                    rm "$fullpath/$indexdir/$file"
+                fi
+                continue
+            elif ( (echo "$file" | egrep -v '[_a-zA-Z0-9\.\-]') || (echo "$file" | egrep -v '^[a-zA-Z0-9]') ) >/dev/null
+            then
+                echo "legit-add: error: invalid filename '$file'"
+                continue
+            else
+                cp "$file" "$fullpath/$indexdir"
+            fi
+        done
+    else
+        echo  "legit-add: error: no $legitdir directory containing legit repository exists"
+        exit 1
+    fi
+}
+
 commitseq()
 {
     count=0
@@ -80,20 +117,20 @@ commit()
 #echo "$1"
 #echo $#
     buff=0
-   if ((test $# -ge 3) && (echo "$1" | egrep "\-a") && (echo "$2" | egrep "\-m") )
+   if ((test $# -ge 3) && (echo "$1" | egrep "\-a") && (echo "$2" | egrep "\-m")) >/dev/null 
        then
-           echo "-aaaaaaaaaaaaaaaaaaaaaaa"
+        #   echo "-aaaaaaaaaaaaaaaaaaaaaaa"
            for i in `ls $fullpath/$indexdir`
                do 
-                   echo add  file  $i
-                  ./legit-add $i
+         #          echo add  file  $i
+                   add $i
                done
        buff=1 
    fi
 
    if ( ( test $# -ge 2 ) && ( echo "$1" | egrep "\-m" ) ||  ( buff=1)) >/dev/null
     then
-        echo "-mmmmmmmmmmmmmmmmmmmmmmmmm"
+        #echo "-mmmmmmmmmmmmmmmmmmmmmmmmm"
         commitseq 
         last_num="$?" 
         commitdir="$fullpath/.commit_$last_num"
