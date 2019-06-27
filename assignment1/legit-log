@@ -36,22 +36,23 @@ log()
     do
         num=`echo $file | sed "s/.*_//"`
         message=`cat $file/.commit_message`
-        array[$num]=$message
+        echo "$num $message"
+#     array[$num]=$message
         #echo ${array[*]}
         #echo "$num $message"
     done
-    len=${#array[*]}
+#    len=${#array[*]}
 #    for ((i=$len-1;i>=0;i--))
 #    do
 #        echo  "$i ${array[$i]}"
 #    done
-    count=$len
-    let count-=1
-    while ( test $count -ge 0 )
-    do 
-        echo "$count ${array[$count]}"
-        let count-=1
-    done
+#    count=$len
+#    let count-=1
+#    while ( test $count -ge 0 )
+#    do 
+#   echo "$count ${array[$count]}"
+#       let count-=1
+#   done
 }
 
 log $fullpath
