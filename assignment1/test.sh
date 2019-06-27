@@ -5,7 +5,10 @@
 #    echo $f
 #done
 
-if [ 0 ]
+
+echo "--force" | grep "\-\-force"
+sin=$?
+if [ $sin  ]
 then
     echo "true"
 else

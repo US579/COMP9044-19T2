@@ -9,9 +9,27 @@ indexdir="objects"
 
 rm()
 {
+    force=0
+    cached=0
+    #if no parameter
+    if ( test $# -eq 0 )
+    then
+        echo "usage: legit-rm [--force] [--cached] <filenames>"
+        exit 1
+    fi
+    #if only one parameter
+    if ( test $# -eq 1 ) && (( echo "$1" | egrep -v "\(--force\)") || !( echo "$1" | egrep -v "\(--cached\)")) >/dev/null 
+    then
+        echo "usage: legit-rm [--force] [--cached] <filenames>"
+        exit 1
+    fi
+    #if only two parmeters
+    if ( test $# -eq 2 ) && (( echo "$1" | egrep -v "\(--force\)") && ( echo "$2" | egrep -v "\(--cached\)"))>/dev/null
+    then
+        echo "usage: legit-rm [--force] [--cached] <filenames>"
+        exit 1
+    fi 
 
-
-
-
+    
 }
-rm @$
+rm $@ 
