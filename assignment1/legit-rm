@@ -7,10 +7,84 @@ fullpath="$legitdir/$sub_legitdir"
 indexdir="objects"
 
 
+commitseq()
+{
+    count=0
+    while ( test $count -ge 0 )
+    do
+        if [ -d "$fullpath/.commit_$count" ]
+        then
+            count=$(( count+1 ))
+        else
+            return $count
+        fi
+    done
+}
 
 
+file_compare()
+{   
 
-rm()
+    # the file in the current directory if it is different to the last commit.
+    filename=".commit_$1"
+    dir="$fullpath/$filename"
+    echo "$2---------------"
+    curr_file="$2"
+    last_commit="$dir/$2"
+    if [ ! -f $index_file ]
+    then
+        echo "legit-rm: error: '$curr_file' is not in the legit repository"
+        exit 1
+        return 1
+    else
+        diff "$curr_file" "$last_commit" >/dev/null
+        if [ $? != 0 ]
+        then
+            echo "legit-rm: error: '$2' in current directory is different to repository"
+            exit 1
+        fi 
+    fi
+
+    #the file from the index is different to the last commit.
+    obiect_dir="$dir/$2"
+    if [ ! -f $obiect_dir ]
+    then
+        echo "legit-rm: error: '$curr_file' is not in the legit repository333"
+        exit 1
+    else
+        diff "$fullpath/$indexdir/$2" "$last_commit" >/dev/null  
+        if [ $? != 0 ]
+        then
+            echo "legit-rm: error: '$2' in repository is different to working file"
+            exit 1
+         #   echo 'differnet--------'
+        fi
+    fi
+}
+
+
+check()
+{
+    commitseq 
+    last_num="$?" 
+    pre_seq=$((last_num-1))
+    echo "checkkkkkkkk"
+    file_compare $pre_seq $1
+}
+
+
+rm_file()
+{
+    if ( test $1 -eq 0 )
+    then
+        echo $2
+    fi
+
+    echo "$fullpath/$indexdir/$2"
+
+}
+
+main()
 {
     force=0
     cached=0
@@ -50,9 +124,21 @@ rm()
         cached=1
     fi
 
-    
+
+
+    for file in $@
+    do
+        if (echo $file | egrep -v "^-") >/dev/null
+        then
+        check $file
+        rm_file $cached $file
+        fi
+    done
+
+
+
 
     
     
 }
-rm $@ 
+main $@ 
