@@ -61,7 +61,7 @@ show()
         pre_seq=$((last_num-1))
         if [ ! -f $fullpath/.commit_$pre_seq/$filename ]
         then
-            echo "legit-show: error: '$filename' not found in commit $num"
+            echo "legit-show: error: '$filename' not found in index"
             exit 1
         fi 
         cat $fullpath/.commit_$pre_seq/$filename 
