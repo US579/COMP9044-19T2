@@ -41,10 +41,17 @@ log()
         #echo "$num $message"
     done
     len=${#array[*]}
-    for ((i=$len-1;i>=0;i--))
-    do
-        echo  "$i ${array[$i]}"
-    done 
+#    for ((i=$len-1;i>=0;i--))
+#    do
+#        echo  "$i ${array[$i]}"
+#    done
+    count=$len
+    let count-=1
+    while ( test $count -ge 0 )
+    do 
+        echo "$count ${array[$count]}"
+        let count-=1
+    done
 }
 
 log $fullpath
