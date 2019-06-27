@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 
 legitdir='.legit'
 sub_legitdir='.git'
@@ -79,8 +79,21 @@ commit()
     fi
 #echo "$1"
 #echo $#
-   if ( ( test $# -ge 2 ) && ( echo "$1" | egrep "\-m" ) ) >/dev/null
+    buff=0
+   if ((test $# -ge 3) && (echo "$1" | egrep "\-a") && (echo "$2" | egrep "\-m") )
+       then
+           echo "-aaaaaaaaaaaaaaaaaaaaaaa"
+           for i in `ls $fullpath/$indexdir`
+               do 
+                   echo add  file  $i
+                  ./legit-add $i
+               done
+       buff=1 
+   fi
+
+   if ( ( test $# -ge 2 ) && ( echo "$1" | egrep "\-m" ) ||  ( buff=1)) >/dev/null
     then
+        echo "-mmmmmmmmmmmmmmmmmmmmmmmmm"
         commitseq 
         last_num="$?" 
         commitdir="$fullpath/.commit_$last_num"
