@@ -64,7 +64,7 @@ show()
             echo "legit-show: error: '$filename' not found in index"
             exit 1
         fi 
-        cat $fullpath/.commit_$pre_seq/$filename 
+        cat $fullpath/$indexdir/$filename 
     else
         if [ ! -d $fullpath/.commit_$num ]
         then

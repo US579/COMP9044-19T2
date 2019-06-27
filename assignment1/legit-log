@@ -31,11 +31,11 @@ log()
         echo 'legit-log: error: your repository does not have any commits yet'
         exit 1
     fi
-
-    for file in $1/.commit*
+    
+    for file in `ls -ra $1 | grep ".comm"`
     do
         num=`echo $file | sed "s/.*_//"`
-        message=`cat $file/.commit_message`
+        message=`cat $fullpath/$file/.commit_message`
         echo "$num $message"
 #     array[$num]=$message
         #echo ${array[*]}
