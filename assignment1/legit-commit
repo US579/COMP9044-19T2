@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 
 legitdir='.legit'
 sub_legitdir='.git'
@@ -95,7 +95,7 @@ commit()
         if ( [ ! -d $fullpath/.commit_0 ] && [ "`ls $fullpath/$indexdir`" != "" ]) 
         then
             mkdir $fullpath/.commit_0
-            echo "${@:2}" > "$fullpath/.commit_$last_num/.commit_message"
+            echo "$@" | sed "s/-m //" > "$fullpath/.commit_$last_num/.commit_message"
             cp $fullpath/$indexdir/* $commitdir
             echo "COMMIT:$last_num" >> $fullpath/Branch.master
             echo "Committed as commit $last_num"
@@ -108,9 +108,9 @@ commit()
        # echo "singal is $flag"
         #echo $last_num
         if ( test  $flag -eq 1 )
-        then 
+        then
             mkdir $commitdir
-            echo "${@:2}" > "$fullpath/.commit_$last_num/.commit_message"
+            echo "$@" | sed "s/-m //" > "$fullpath/.commit_$last_num/.commit_message"
             cp $fullpath/$indexdir/* $commitdir 
             echo "COMMIT:$last_num" >> $fullpath/Branch.master
             echo "Committed as commit $last_num"
