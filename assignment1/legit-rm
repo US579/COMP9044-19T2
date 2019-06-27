@@ -7,6 +7,9 @@ fullpath="$legitdir/$sub_legitdir"
 indexdir="objects"
 
 
+
+
+
 rm()
 {
     force=0
@@ -17,19 +20,39 @@ rm()
         echo "usage: legit-rm [--force] [--cached] <filenames>"
         exit 1
     fi
-    #if only one parameter
-    if ( test $# -eq 1 ) && (( echo "$1" | egrep -v "\(--force\)") || !( echo "$1" | egrep -v "\(--cached\)")) >/dev/null 
-    then
-        echo "usage: legit-rm [--force] [--cached] <filenames>"
-        exit 1
-    fi
-    #if only two parmeters
-    if ( test $# -eq 2 ) && (( echo "$1" | egrep -v "\(--force\)") && ( echo "$2" | egrep -v "\(--cached\)"))>/dev/null
-    then
-        echo "usage: legit-rm [--force] [--cached] <filenames>"
-        exit 1
-    fi 
 
+    if (echo "$1" | egrep "^-")>/dev/null
+    then
+        if ( test $# -eq 1 ) && (( echo "$1" | egrep -v "\(--force\)") || !( echo "$1" | egrep -v "\(--cached\)")) >/dev/null
+        then
+            echo "usage: legit-rm [--force] [--cached] <filenames>"
+            exit 1
+        fi
+    fi
+
+    if ((echo "$1" | egrep "^-") && (echo "$2" | egrep "^-"))>/dev/null
+    then
+    #if only two parmeters
+        if ( test $# -eq 2 ) && (( echo "$1" | egrep -v "\(--force\)") && ( echo "$2" | egrep -v "\(--cached\)"))>/dev/null
+        then
+            echo "usage: legit-rm [--force] [--cached] <filenames>"
+            exit 1
+        fi 
+    fi
+
+    if ( echo $1 | egrep "\-\-f") >/dev/null
+    then
+        force=1
+    fi
+
+    if (( echo "$1" | egrep  "\-\-c") || ( echo "$2" | egrep  "\-\-c"))>/dev/null
+    then
+        cached=1
+    fi
+
+    
+
+    
     
 }
 rm $@ 
