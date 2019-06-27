@@ -95,7 +95,7 @@ commit()
         if ( [ ! -d $fullpath/.commit_0 ] && [ "`ls $fullpath/$indexdir`" != "" ]) 
         then
             mkdir $fullpath/.commit_0
-            echo "$2" > "$fullpath/.commit_$last_num/.commit_message"
+            echo "${@:2}" > "$fullpath/.commit_$last_num/.commit_message"
             cp $fullpath/$indexdir/* $commitdir
             echo "COMMIT:$last_num" >> $fullpath/Branch.master
             echo "Committed as commit $last_num"
@@ -110,7 +110,7 @@ commit()
         if ( test  $flag -eq 1 )
         then 
             mkdir $commitdir
-            echo "$2" > "$fullpath/.commit_$last_num/.commit_message"
+            echo "${@:2}" > "$fullpath/.commit_$last_num/.commit_message"
             cp $fullpath/$indexdir/* $commitdir 
             echo "COMMIT:$last_num" >> $fullpath/Branch.master
             echo "Committed as commit $last_num"
