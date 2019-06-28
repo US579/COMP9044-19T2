@@ -24,52 +24,105 @@ commitseq()
 
 file_compare()
 {   
+    filename=".commit_$3"
+    last_commit="$fullpath/$filename/$2"
 
-    # the file in the current directory if it is different to the last commit.
-    filename=".commit_$1"
-    dir="$fullpath/$filename"
-    echo "$2---------------"
-    curr_file="$2"
-    last_commit="$dir/$2"
-    if [ ! -f $index_file ]
+    # option 2: compare specified file between working dir and index dir (used by rm, status)
+    if ( test $1 -eq 1 )
     then
-        echo "legit-rm: error: '$curr_file' is not in the legit repository"
-        exit 1
-        return 1
-    else
-        diff "$curr_file" "$last_commit" >/dev/null
-        if [ $? != 0 ]
+        if ( test -e "$fullpath$/$indexdir/$2")
         then
-            echo "legit-rm: error: '$2' in current directory is different to repository"
+            diff "$fullpath$/$indexdir/$2" "$2" >/dev/null
+            if [ $? != 0 ]
+            then
+                echo 1
+                exit 1
+            fi
+        else
+             # if file cannot be found in index dir
+            echo 2
             exit 1
-        fi 
-    fi
-
-    #the file from the index is different to the last commit.
-    obiect_dir="$dir/$2"
-    if [ ! -f $obiect_dir ]
-    then
-        echo "legit-rm: error: '$curr_file' is not in the legit repository333"
-        exit 1
-    else
-        diff "$fullpath/$indexdir/$2" "$last_commit" >/dev/null  
-        if [ $? != 0 ]
-        then
-            echo "legit-rm: error: '$2' in repository is different to working file"
-            exit 1
-         #   echo 'differnet--------'
         fi
     fi
+     # option 3: compare specified file between working dir and last commit 
+    if ( test $1 -eq 2 )
+    then
+        if ( test -e "$last_commit")
+        then
+            diff "$last_commit" "$2" >/dev/null
+            if [ $? != 0 ]
+            then
+                echo 1
+                exit 1
+            fi
+        # if file cannot be found in commit repository
+        else
+            echo 2
+            exit 1
+        fi
+    fi
+
+    # option 4: compare specified file between index dir and last commit 
+    if ( test $1 -eq 3 )
+    then
+        if ( test -e "$last_commit" && test -e "$fullpath/$indexdir/$2")
+        then
+            diff "$last_commit" "$fullpath/$indexdir/$2" >/dev/null
+            if [ $? != 0 ]
+            then
+                echo 1
+                exit 1
+            fi
+        else
+             # if file cannot be found in commit repository or index dir
+            echo 2
+            exit 2
+        fi
+    fi
+    #if file is the same 
+    echo 0
 }
 
 
 check()
 {
+
     commitseq 
     last_num="$?" 
     pre_seq=$((last_num-1))
-    echo "checkkkkkkkk"
-    file_compare $pre_seq $1
+    #work == current directory
+    #index == objects directory
+    #last == repository last commit file
+    work_index=`file_compare 1  $1 $pre_seq`
+    work_last=`file_compare 2 $1 $pre_seq`
+    index_last=`file_compare 3 $1 $pre_seq`
+    force=$2
+    cached=$3
+    if ( test $cached -eq 1 ) || ( test $force -eq 0)
+    then
+        # if file in index dir differs from working dir and last commit 
+        if (test $work_index -eq 1) && (test $index_last -eq 1)
+        then 
+            echo "legit-rm: error: '$1' in index is different to both working file and repository"
+            exit 1
+        # if file in index dir same as working dir, but has not commit, or differs from last commit 
+        elif (test $work_index -eq 0) && (test $index_last -eq 1) || (test $work_index -eq 2)
+            then
+            echo "legit-rm: error: '$1' has changes staged in the index"
+            exit 1
+        #  if file in working dir differs from last commit, and has not been added into index dir  
+        elif (test $work_last -eq 1) && (test $index_last -eq 0)
+            then
+            echo "legit-rm: error: '$1' in repository is different to working file"
+            exit 1
+        fi
+    fi
+    if (test $work_index -eq 2)
+    then
+        echo "legit-rm: error: '$1' is not in the legit repository"
+        exit 1
+    fi
+
 }
 
 
@@ -77,11 +130,9 @@ rm_file()
 {
     if ( test $1 -eq 0 )
     then
-        echo $2
+        rm $2
     fi
-
-    echo "$fullpath/$indexdir/$2"
-
+    rm "$fullpath/$indexdir/$2"
 }
 
 main()
@@ -130,15 +181,15 @@ main()
     do
         if (echo $file | egrep -v "^-") >/dev/null
         then
-        check $file
+        check $file $force $cached
         rm_file $cached $file
         fi
     done
 
-
-
-
-    
     
 }
+
 main $@ 
+
+
+
