@@ -30,9 +30,9 @@ file_compare()
     # option 2: compare specified file between working dir and index dir (used by rm, status)
     if ( test $1 -eq 1 )
     then
-        if ( test -e "$fullpath$/$indexdir/$2")
+        if ( test -e "$fullpath/$indexdir/$2")
         then
-            diff "$fullpath$/$indexdir/$2" "$2" >/dev/null
+            diff "$fullpath/$indexdir/$2" "$2" >/dev/null
             if [ $? != 0 ]
             then
                 echo 1
@@ -44,6 +44,7 @@ file_compare()
             exit 1
         fi
     fi
+
      # option 3: compare specified file between working dir and last commit 
     if ( test $1 -eq 2 )
     then
@@ -93,11 +94,14 @@ check()
     #work == current directory
     #index == objects directory
     #last == repository last commit file
-    work_index=`file_compare 1  $1 $pre_seq`
+    work_index=`file_compare 1 $1 $pre_seq`
     work_last=`file_compare 2 $1 $pre_seq`
     index_last=`file_compare 3 $1 $pre_seq`
     force=$2
     cached=$3
+    # echo $work_index
+    # echo $index_last
+    # echo $work_last
     if ( test $cached -eq 1 ) || ( test $force -eq 0)
     then
         # if file in index dir differs from working dir and last commit 
@@ -106,10 +110,12 @@ check()
             echo "legit-rm: error: '$1' in index is different to both working file and repository"
             exit 1
         fi
+
         if (test $cached -eq 0) && (test $force -eq 0)
         then
-        # if file in index dir same as working dir, but has not commit, or differs from last commit 
-            if (test $work_index -eq 0) && (test $index_last -eq 1) || (test $work_index -eq 2)
+        # if file in index dir same as working dir, but has not commit, or differs from last commit
+
+            if (test $work_index -eq 0) && (test $index_last -eq 1) || (test $work_last -eq 2)
                 then
                 echo "legit-rm: error: '$1' has changes staged in the index"
                 exit 1
@@ -134,9 +140,11 @@ rm_file()
 {
     if ( test $1 -eq 0 )
     then
+        #echo "delete $2"
         rm $2
     fi
-    rm "$fullpath/$indexdir/$2"
+    #echo  "delete $fullpath/$indexdir/$2"
+    rm  $fullpath/$indexdir/$2
 }
 
 main()
