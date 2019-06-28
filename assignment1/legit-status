@@ -33,7 +33,7 @@ file_compare()
     then
         if ( test -e "$fullpath/$indexdir/$2")
         then
-            diff "$fullpath/$indexdir/$2" "$2" >/dev/null
+            diff "$fullpath/$indexdir/$2" "$2" >/dev/null 2>&1
             if [ $? != 0 ]
             then
                 echo 1
@@ -51,7 +51,7 @@ file_compare()
     then
         if ( test -e "$last_commit")
         then
-            diff "$last_commit" "$2" >/dev/null
+            diff "$last_commit" "$2" >/dev/null 2>&1
             if [ $? != 0 ]
             then
                 echo 1
@@ -69,7 +69,7 @@ file_compare()
     then
         if ( test -e "$last_commit" && test -e "$fullpath/$indexdir/$2")
         then
-            diff "$last_commit" "$fullpath/$indexdir/$2" >/dev/null
+            diff "$last_commit" "$fullpath/$indexdir/$2" >/dev/null 2>&1
             if [ $? != 0 ]
             then
                 echo 1
@@ -87,10 +87,46 @@ file_compare()
 
 
 status_show()
-{
+{	
+	commitseq
+    last_num="$?"
+    pre_seq=$((last_num-1))
+    #work == current directory
+    #index == objects directory
+    #last == repository last commit file
+    work_index=`file_compare 1 $1 $pre_seq`
+    work_last=`file_compare 2 $1 $pre_seq`
+    index_last=`file_compare 3 $1 $pre_seq`
+    # echo $work_index
+    # echo $index_last
+    # echo $work_last
+	file=$1
 
-
-	echo "asd"
+	if !( test -e $file ) && ( test $index_last -eq 0)
+	then
+		echo "$file - file deleted"
+	elif !( test -e $file ) && !( test -e $fullpath/$indexdir/$file )
+	then
+		echo "$file - deleted"
+	elif ( test $work_last -eq 0 ) && ( test $index_last -eq 0)
+	then
+		echo "$file - same as repo"
+	elif ( test -e $file ) && ( test $work_index -eq 2 )
+	then
+		echo "$file - untracked"
+	elif ( test $work_index -eq 0 ) && ( test $work_last -eq 2)
+	then
+		echo "$file - added to index"
+	elif ( test $work_index -eq 1 ) && ( test $index_last -eq 0 )
+	then
+		echo "$file - file changed, changes not staged for commit"
+	elif ( test $work_index -eq 0 ) && ( test $index_last -eq 1 )
+	then
+		echo "$file - file changed, changes staged for commit"
+	elif ( test $work_index -eq 1 ) && ( test $index_last -eq 1 )
+	then 
+		echo "$file - file changed, different changes staged for commit"
+	fi
 
 }
 
@@ -101,22 +137,20 @@ status()
     pre_seq=$((last_num-1))
 	for f_current in `ls`
 	do
-		echo `basename $f_current`
+		status_show $f_current
 	done
 
 	for f_index in `ls $fullpath/$indexdir/`
 	do 
-		echo "$f_index"
-		echo `basename $f_index`
+		status_show $f_index
 	done
-
-	for f_last in `ls $fullpath/.commit_$pre_seq`
-	do
-		echo "$f_last"
-	done
-
-
-
+	if (test $pre_seq -ge 0)
+	then
+		for f_last in `ls $fullpath/.commit_$pre_seq`
+		do
+			status_show $f_last
+		done
+	fi
 
 }
 
