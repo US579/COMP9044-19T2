@@ -33,7 +33,7 @@ add()
                 if (test -e "$fullpath/$indexdir/$file")
                 then
                     rm $fullpath/$indexdir/$file
-                    exit 0
+                    exit 1
                 fi
 
                 echo "legit-add: error: can not open '$file'"

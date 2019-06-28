@@ -25,6 +25,13 @@ add()
         do
             if !( test -e "$file" )
             then
+                #if file exist in the object directory and not exist in the current directory,remove the file from objects directory
+                if (test -e "$fullpath/$indexdir/$file")
+                then
+                    rm $fullpath/$indexdir/$file
+                    exit 1
+                fi
+
                 echo "legit-add: error: can not open '$file'"
                 if ( test -e "$fullpath/$indexdir/$file")
                 then
