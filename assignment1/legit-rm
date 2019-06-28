@@ -105,16 +105,20 @@ check()
         then 
             echo "legit-rm: error: '$1' in index is different to both working file and repository"
             exit 1
+        fi
+        if (test $cached -eq 0) && (test $force -eq 0)
+        then
         # if file in index dir same as working dir, but has not commit, or differs from last commit 
-        elif (test $work_index -eq 0) && (test $index_last -eq 1) || (test $work_index -eq 2)
-            then
-            echo "legit-rm: error: '$1' has changes staged in the index"
-            exit 1
-        #  if file in working dir differs from last commit, and has not been added into index dir  
-        elif (test $work_last -eq 1) && (test $index_last -eq 0)
-            then
-            echo "legit-rm: error: '$1' in repository is different to working file"
-            exit 1
+            if (test $work_index -eq 0) && (test $index_last -eq 1) || (test $work_index -eq 2)
+                then
+                echo "legit-rm: error: '$1' has changes staged in the index"
+                exit 1
+            #  if file in working dir differs from last commit, and has not been added into index dir  
+            elif (test $work_last -eq 1) && (test $index_last -eq 0)
+                then
+                echo "legit-rm: error: '$1' in repository is different to working file"
+                exit 1
+            fi
         fi
     fi
     if (test $work_index -eq 2)
