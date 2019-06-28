@@ -43,7 +43,7 @@ add()
                 echo "legit-add: error: invalid filename '$file'"
                 continue
             else
-                cp "$file" "$fullpath/$indexdir"
+                cp "$file" "$fullpath/$indexdir" >/dev/null 
             fi
         done
     else
