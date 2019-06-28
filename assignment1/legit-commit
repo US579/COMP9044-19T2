@@ -121,18 +121,16 @@ commit()
         echo "legit-commit: error: no .legit directory containing legit repository exists"
         exit 1
     fi
-#echo "$1"
-#echo $#
+
+    #[-a] option : update all the file from current directory to the object directory
     buff=0
    if ((test $# -ge 3) && (echo "$1" | egrep "\-a") && (echo "$2" | egrep "\-m")) >/dev/null 
        then
-        #   echo "-aaaaaaaaaaaaaaaaaaaaaaa"
            for i in `ls $fullpath/$indexdir`
                do 
-         #          echo add  file  $i
                    add $i
                done
-       buff=1 
+            buff=1 
    fi
 
    if ( ( test $# -ge 2 ) && ( echo "$1" | egrep "\-m" ) ||  ( buff=1)) >/dev/null
