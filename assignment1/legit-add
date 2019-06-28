@@ -23,10 +23,19 @@ add()
         then
             mkdir "$fullpath/$indexdir"
         fi
+        # traverse the file that need to add 
         for file in $@
-        do
+        do  
+            #if file not exist in the current directory
             if !( test -e "$file" )
             then
+                #if file exist in the object directory and not exist in the current directory,remove the file from objects directory
+                if (test -e "$fullpath/$indexdir/$file")
+                then
+                    rm $fullpath/$indexdir/$file
+                    exit 0
+                fi
+
                 echo "legit-add: error: can not open '$file'"
                 if ( test -e "$fullpath/$indexdir/$file")
                 then 
