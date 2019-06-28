@@ -151,7 +151,7 @@ commit()
         then
             mkdir $fullpath/.commit_0
             echo "$@" | sed "s/-m //" > "$fullpath/.commit_$last_num/.commit_message"
-            cp $fullpath/$indexdir/* $commitdir
+            cp $fullpath/$indexdir/* $commitdir >/dev/null  2>&1
             echo "COMMIT:$last_num" >> $fullpath/Branch.master
             echo "Committed as commit $last_num"
             exit 0
@@ -166,7 +166,7 @@ commit()
         then
             mkdir $commitdir
             echo "$@" | sed "s/-m //" > "$fullpath/.commit_$last_num/.commit_message"
-            cp $fullpath/$indexdir/* $commitdir 
+            cp $fullpath/$indexdir/* $commitdir >/dev/null  2>&1
             echo "COMMIT:$last_num" >> $fullpath/Branch.master
             echo "Committed as commit $last_num"
         else
