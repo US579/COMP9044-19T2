@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #written by Wanze Liu , z5137189
 
 legitdir='.legit'
@@ -99,9 +99,9 @@ check()
     index_last=`file_compare 3 $1 $pre_seq`
     force=$2
     cached=$3
-    echo $work_index
-    echo $index_last
-    echo $work_last
+    # echo $work_index
+    # echo $index_last
+    # echo $work_last
     if ( test $cached -eq 1 ) || ( test $force -eq 0)
     then
         # if file in index dir differs from working dir and last commit 
@@ -114,8 +114,7 @@ check()
         if (test $cached -eq 0) && (test $force -eq 0)
         then
         # if file in index dir same as working dir, but has not commit, or differs from last commit
-
-            if (test $work_index -eq 0) && (test $index_last -eq 1) || (test $work_last -eq 2)
+            if (test $work_index -eq 0) && ((test $index_last -eq 1) || (test $work_last -eq 2))
                 then
                 echo "legit-rm: error: '$1' has changes staged in the index"
                 exit 1
@@ -127,6 +126,7 @@ check()
             fi
         fi
     fi
+
     if (test $work_index -eq 2)
     then
         echo "legit-rm: error: '$1' is not in the legit repository"
