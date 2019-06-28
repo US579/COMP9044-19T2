@@ -1,0 +1,124 @@
+#!/bin/sh
+#written by Wanze Liu , z5137189
+
+legitdir='.legit'
+sub_legitdir='.git'
+fullpath="$legitdir/$sub_legitdir"
+indexdir="objects"
+
+
+
+commitseq()
+{
+    count=0
+    while ( test $count -ge 0 )
+    do
+        if [ -d "$fullpath/.commit_$count" ]
+        then
+            count=$(( count+1 ))
+        else
+            return $count
+        fi
+    done
+}
+
+
+file_compare()
+{   
+    filename=".commit_$3"
+    last_commit="$fullpath/$filename/$2"
+
+    # option 2: compare specified file between working dir and index dir (used by rm, status)
+    if ( test $1 -eq 1 )
+    then
+        if ( test -e "$fullpath/$indexdir/$2")
+        then
+            diff "$fullpath/$indexdir/$2" "$2" >/dev/null
+            if [ $? != 0 ]
+            then
+                echo 1
+                exit 1
+            fi
+        else
+             # if file cannot be found in index dir
+            echo 2
+            exit 1
+        fi
+    fi
+
+     # option 3: compare specified file between working dir and last commit 
+    if ( test $1 -eq 2 )
+    then
+        if ( test -e "$last_commit")
+        then
+            diff "$last_commit" "$2" >/dev/null
+            if [ $? != 0 ]
+            then
+                echo 1
+                exit 1
+            fi
+        # if file cannot be found in commit repository
+        else
+            echo 2
+            exit 1
+        fi
+    fi
+
+    # option 4: compare specified file between index dir and last commit 
+    if ( test $1 -eq 3 )
+    then
+        if ( test -e "$last_commit" && test -e "$fullpath/$indexdir/$2")
+        then
+            diff "$last_commit" "$fullpath/$indexdir/$2" >/dev/null
+            if [ $? != 0 ]
+            then
+                echo 1
+                exit 1
+            fi
+        else
+             # if file cannot be found in commit repository or index dir
+            echo 2
+            exit 2
+        fi
+    fi
+    #if file is the same 
+    echo 0
+}
+
+
+status_show()
+{
+
+
+	echo "asd"
+
+}
+
+status()
+{
+	commitseq
+    last_num="$?"
+    pre_seq=$((last_num-1))
+	for f_current in `ls`
+	do
+		echo `basename $f_current`
+	done
+
+	for f_index in `ls $fullpath/$indexdir/`
+	do 
+		echo "$f_index"
+		echo `basename $f_index`
+	done
+
+	for f_last in `ls $fullpath/.commit_$pre_seq`
+	do
+		echo "$f_last"
+	done
+
+
+
+
+}
+
+
+status 
