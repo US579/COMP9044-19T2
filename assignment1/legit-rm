@@ -99,10 +99,12 @@ check()
     index_last=`file_compare 3 $1 $pre_seq`
     force=$2
     cached=$3
+    echo "force $force "
+    echo "cached $cached"
     # echo $work_index
     # echo $index_last
     # echo $work_last
-    if ( test $cached -eq 1 ) || ( test $force -eq 0)
+    if ( test $force -eq 0 )
     then
         # if file in index dir differs from working dir and last commit 
         if (test $work_index -eq 1) && (test $index_last -eq 1)
