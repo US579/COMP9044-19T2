@@ -7,7 +7,7 @@ fullpath="$legitdir/$sub_legitdir"
 indexdir="objects"
 
 
-
+#function : return the latest commit number 
 commitseq()
 {
     count=0
@@ -22,13 +22,14 @@ commitseq()
     done
 }
 
-
+#function : compare the two file 
+# three options
 file_compare()
 {   
     filename=".commit_$3"
     last_commit="$fullpath/$filename/$2"
 
-    # option 2: compare specified file between working dir and index dir (used by rm, status)
+    # option 1: compare specified file between working directory and index directory
     if ( test $1 -eq 1 )
     then
         if ( test -e "$fullpath/$indexdir/$2")
@@ -40,13 +41,13 @@ file_compare()
                 exit 1
             fi
         else
-             # if file cannot be found in index dir
+             # if file cannot be found in index directory
             echo 2
             exit 1
         fi
     fi
 
-     # option 3: compare specified file between working dir and last commit 
+     # option 3: compare specified file between working directory and last commit directory
     if ( test $1 -eq 2 )
     then
         if ( test -e "$last_commit")
@@ -64,7 +65,7 @@ file_compare()
         fi
     fi
 
-    # option 4: compare specified file between index dir and last commit 
+    # option 4: compare specified file between index directory and last commit directory
     if ( test $1 -eq 3 )
     then
         if ( test -e "$last_commit" && test -e "$fullpath/$indexdir/$2")
@@ -76,7 +77,7 @@ file_compare()
                 exit 1
             fi
         else
-             # if file cannot be found in commit repository or index dir
+             # if file cannot be found in commit repository or index directory
             echo 2
             exit 2
         fi
@@ -85,7 +86,7 @@ file_compare()
     echo 0
 }
 
-
+#function to show the file status , get one input
 status_show()
 {	
 	commitseq
@@ -134,39 +135,31 @@ status()
 {
 	commitseq
     last_num="$?"
-
     pre_seq=$((last_num-1))
+    
 	for f_current in `ls`
 	do
         name="$name:$f_current"
-		#status_show $f_current
 	done
 
 	for f_index in `ls $fullpath/$indexdir/`
 	do 
         name="$name:$f_index"
-		#status_show $f_index
 	done
 	if (test $pre_seq -ge 0)
 	then
 		for f_last in `ls $fullpath/.commit_$pre_seq`
 		do
             name="$name:$f_last"
-			#status_show $f_last
 		done
 	fi
 
+    #make file name unique ,sort it and input to status_show function 
     list=`echo "$name" | tr ":" "\n" | sort | uniq`
     for file in $list
     do
         status_show $file
     done
-
-
-    # for i in `echo "$name" | sed "s/ /\n/g" | sort | uniq`
-    # do
-    #     echo "$i"
-    # done
 
 
 }
