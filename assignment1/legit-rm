@@ -99,8 +99,8 @@ check()
     index_last=`file_compare 3 $1 $pre_seq`
     force=$2
     cached=$3
-    echo "force $force "
-    echo "cached $cached"
+    # echo "force $force "
+    # echo "cached $cached"
     # echo $work_index
     # echo $index_last
     # echo $work_last
