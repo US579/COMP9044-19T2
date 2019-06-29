@@ -134,23 +134,40 @@ status()
 {
 	commitseq
     last_num="$?"
+
     pre_seq=$((last_num-1))
 	for f_current in `ls`
 	do
-		status_show $f_current
+        name="$name:$f_current"
+		#status_show $f_current
 	done
 
 	for f_index in `ls $fullpath/$indexdir/`
 	do 
-		status_show $f_index
+        name="$name:$f_index"
+		#status_show $f_index
 	done
 	if (test $pre_seq -ge 0)
 	then
 		for f_last in `ls $fullpath/.commit_$pre_seq`
 		do
-			status_show $f_last
+            name="$name:$f_last"
+			#status_show $f_last
 		done
 	fi
+    
+    list=`echo "$name" | tr ":" "\n" | sort | uniq`
+    for file in $list
+    do
+        status_show $file
+    done
+
+
+    # for i in `echo "$name" | sed "s/ /\n/g" | sort | uniq`
+    # do
+    #     echo "$i"
+    # done
+
 
 }
 
