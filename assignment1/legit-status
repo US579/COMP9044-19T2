@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #written by Wanze Liu , z5137189
 
 legitdir='.legit'
@@ -155,7 +155,7 @@ status()
 			#status_show $f_last
 		done
 	fi
-    
+
     list=`echo "$name" | tr ":" "\n" | sort | uniq`
     for file in $list
     do
