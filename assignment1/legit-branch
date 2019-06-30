@@ -99,8 +99,8 @@ sub branch {
 			print "legit-branch: error: branch '$bname' already exists\n";
             exit 1;
 		}else{
-			open fbranch, ">" ,"$fullpath/Branch\.$bname";
-			close fbranch;
+			open F, ">" ,"$fullpath/Branch\.$bname";
+			close F;
 		}
 	}
 }
@@ -147,6 +147,7 @@ sub main(){
 		print "usage: legit.pl branch [-d] <branch>\n";
         exit 1;
 	}
+}
 }
 
 &main();
