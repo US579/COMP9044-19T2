@@ -48,14 +48,6 @@ sub is_exist{
 }
 
 
-
-
-# sub check_legit {
-# 	&is_exist;
-# 	$seq= &commitseq;
-# }
-
-
 # three options
 #	1. list all branch
 #	2. delete specified branch 
@@ -89,7 +81,7 @@ sub branch {
             exit 1;
 		}
 		else{
-            unlink("$fullpath/branch.$bname");
+            unlink("$fullpath/Branch.$bname");
             print "Deleted branch '$bname'\n";
         }
 	}
