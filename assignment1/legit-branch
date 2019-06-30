@@ -1,5 +1,12 @@
 #!/usr/bin/perl -w
 
+
+$legitdir='.legit';
+$sub_legitdir='.git';
+$fullpath="$legitdir/$sub_legitdir";
+# $indexdir="objects";
+
+
 sub instruction{
 	print "Usage: legit.pl <command> [<args>]\n";
     print "These are the legit commands:\n";
@@ -16,12 +23,39 @@ sub instruction{
     exit 1;
 }
 
+sub is_exist{
+	if ( ! -d "$legitdir" ){
+		print "legit.pl: error: no $legitdir directory containing legit repository exists\n";
+		exit 1;
+	}
+	if ( -d "$legitdir" && &commitseq == -1){
+		print "legit.pl: error: your repository does not have any commits yet\n";
+		exit 1;
+	}
+}
 
-if (@ARGV=0){
-	&instruction();
+# if (@ARGV=0){
+# 	&instruction();
+# }
+sub commitseq{
+	$count=0;
+	if ( ! -d "$fullpath/.commit_0"){
+		return -1;
+	}
+	while ( -d "$fullpath/.commit_$count" ){
+		$count+=1;
+	}
+	return $count;
 }
 
 
 
+sub check_legit {
+	&is_exist;
+	$seq= &commitseq;
+	print "$seq\n";
+}
 
 
+
+&check_legit
