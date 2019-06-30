@@ -90,7 +90,7 @@ sub branch {
 		}
 		else{
             unlink("$fullpath/branch.$bname");
-            print "Deleted branch '$branchname'\n";
+            print "Deleted branch '$bname'\n";
         }
 	}
 
