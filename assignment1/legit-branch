@@ -95,12 +95,12 @@ sub branch {
 	}
 
 	if ( $option == 3 ){
-		if ( -e "$fullpath/Branch\.$bname") && ( $bname eq "master" ){
+		if (( -e "$fullpath/Branch\.$bname") && ( $bname eq "master" )){
 			print "legit-branch: error: branch '$bname' already exists\n";
             exit 1;
 		}else{
-			open file, ">" ,"$fullpath/Branch\.$bname";
-			close file;
+			open fbranch, ">" ,"$fullpath/Branch\.$bname";
+			close fbranch;
 		}
 	}
 }
@@ -146,7 +146,6 @@ sub main(){
 	else{
 		print "usage: legit.pl branch [-d] <branch>\n";
         exit 1;
-	}
 	}
 }
 
