@@ -5,7 +5,7 @@ $legitdir='.legit';
 $sub_legitdir='.git';
 $fullpath="$legitdir/$sub_legitdir";
 # $indexdir="objects";
-
+use File::Basename;
 
 sub instruction{
 	print "Usage: legit.pl <command> [<args>]\n";
@@ -23,20 +23,7 @@ sub instruction{
     exit 1;
 }
 
-sub is_exist{
-	if ( ! -d "$legitdir" ){
-		print "legit-branch: error: no $legitdir directory containing legit repository exists\n";
-		exit 1;
-	}
-	if ( -d "$legitdir" && &commitseq == -1){
-		print "legit-branch: error: your repository does not have any commits yet\n";
-		exit 1;
-	}
-}
 
-# if (@ARGV=0){
-# 	&instruction();
-# }
 sub commitseq{
 	$count=0;
 	if ( ! -d "$fullpath/.commit_0"){
@@ -49,13 +36,119 @@ sub commitseq{
 }
 
 
-
-sub check_legit {
-	&is_exist;
-	$seq= &commitseq;
-	print "$seq\n";
+sub is_exist{
+	if ( ! -d "$legitdir" ){
+		print "legit-branch: error: no $legitdir directory containing legit repository exists\n";
+		exit 1;
+	}
+	if ( &commitseq == -1 ){
+		print "legit-branch: error: your repository does not have any commits yet\n";
+		exit 1;
+	}
 }
 
 
 
-&check_legit
+
+# sub check_legit {
+# 	&is_exist;
+# 	$seq= &commitseq;
+# }
+
+
+# three options
+#	1. list all branch
+#	2. delete specified branch 
+# 	3. create new branch
+sub branch {
+	(  my $option,my $bname ) = @_;
+
+	if ( $option == 1 ){
+	@branchname=();
+	foreach $file ( glob "$fullpath/*" ) {
+		if (basename($file) =~ /Branch\..*/){
+			$name = basename($file);
+			$name =~ s/Branch.//;
+			push(@branchname,$name);
+		}
+		}	
+	my @sort_branchname = sort @branchname;
+	foreach $f ( @sort_branchname ) {
+		print $f,"\n";
+		}
+	exit 0;
+	}
+
+	if ( $option == 2 ){
+		if ( $bname eq "master"){
+            print "legit-branch: error: can not delete branch '$bname'\n";
+            exit 1; 
+		}
+		elsif ( ! -e "$fullpath/Branch\.$bname" ){
+			print "legit-branch: error: branch '$bname' does not exist\n";
+            exit 1;
+		}
+		else{
+            unlink("$fullpath/branch.$bname");
+            print "Deleted branch '$branchname'\n";
+        }
+	}
+
+	if ( $option == 3 ){
+		if ( -e "$fullpath/Branch\.$bname") && ( $bname eq "master" ){
+			print "legit-branch: error: branch '$bname' already exists\n";
+            exit 1;
+		}else{
+			open file, ">" ,"$fullpath/Branch\.$bname";
+			close file;
+		}
+	}
+}
+
+
+sub check_branchname{
+	($arg)=@_;
+	if ( $arg =~ /^[^_a-zA-Z0-9\-]/ 
+				|| $arg =~ /[^_a-zA-Z0-9\-\.]/ 
+				|| $arg !~ /[a-zA-Z]/ ){
+				print "legit-branch: error: invalid branch name '$arg'\n";
+		        exit 1;
+}
+
+sub main(){
+	&is_exist();
+	$delete=0;
+	my @branchname=();
+
+	foreach $arg ( @ARGV ){
+		if ( $arg eq "-d" ){	
+			$delete=1;
+		}else{
+			push @branchname,$arg;
+			}
+		}
+
+	if ( @branchname == 0 && $delete != 1 ){
+		&branch(1,$branchname[0]);
+	}
+	elsif ( @branchname == 1 && $delete == 1){
+		&check_branchname($branchname[0]);
+		&branch(2,$branchname[0]);
+	}
+	elsif ( @branchname == 1 ){
+		&check_branchname($branchname[0]);
+		&branch(3,$branchname[0]);
+	}
+	elsif (@branchname == 0 && $delete == 1){
+		print "legit.pl: error: branch name required\n";
+		exit 1;
+	}
+	else{
+		print "usage: legit.pl branch [-d] <branch>\n";
+        exit 1;
+	}
+	}
+}
+
+&main();
+
