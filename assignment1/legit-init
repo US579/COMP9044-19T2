@@ -17,7 +17,7 @@ init() {
     else
         mkdir "$legitdir"
         mkdir "$legitdir/$sub_legitdir"
-        echo "master" > .branch_inf
+        echo "master" > $fullpath/.branch_inf
         echo "Initialized empty legit repository in .legit"
     fi
 }
