@@ -1,4 +1,9 @@
 #!/usr/bin/perl -w
+#written by Wanze Liu , z5137189
+
+# Subset 2
+# function 2 branch
+# legit-branch either creates a branch, deletes a branch or lists current branch names
 
 
 $legitdir='.legit';
