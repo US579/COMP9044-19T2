@@ -84,7 +84,11 @@ sub branch {
 			print "legit-branch: error: branch '$bname' already exists\n";
             exit 1;
 		}else{
+			my @list = &branch_inf_reader(1);
 			open F, ">" ,"$fullpath/Branch\.$bname";
+			foreach $ele ( @list ){
+				print F "$ele";
+			}
 			close F;
 		}
 	}

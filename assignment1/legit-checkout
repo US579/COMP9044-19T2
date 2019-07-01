@@ -113,7 +113,7 @@ sub overwritten{
 
 
 sub main{
-	$branchname=$ARGV[0];
+	my $branchname=$ARGV[0];
 	&is_exist();
     if (@ARGV != 1){
         print "usage: legit-checkout <branch>\n";
@@ -121,15 +121,20 @@ sub main{
     }
 
     &checkfile($branchname);
-	$cur=&latest_commit_seq(1,$branchname);
-    
-    # print $cur,"\n";
-    # print $new,"\n";
+    my $cur="1";
+    my $new="1";
+	$cur = &latest_commit_seq(1,$branchname);
+	print "curr   $cur";
     $cur =~ s/.*://;
-    $new=&latest_commit_seq(2,$branchname);
+
+    $new = &latest_commit_seq(2,$branchname);
+    print "sadas $new";
     $new =~ s/.*://;
+
+
     chomp($cur);
     chomp($new);
+
     &overwritten($cur,$new,$branchname);
 
     open F,">" ,"$fullpath/HEAD";
