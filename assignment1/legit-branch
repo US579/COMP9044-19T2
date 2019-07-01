@@ -1,17 +1,9 @@
 #!/usr/bin/perl -w
-#written by Wanze Liu , z5137189
-
-# Subset 2
-# function 2 branch
-# legit-branch either creates a branch, deletes a branch or lists current branch names
-
-
 $legitdir='.legit';
 $sub_legitdir='.git';
 $fullpath="$legitdir/$sub_legitdir";
 # $indexdir="objects";
 use File::Basename;
-
 sub instruction{
 	print "Usage: legit.pl <command> [<args>]\n";
     print "These are the legit commands:\n";
@@ -27,8 +19,6 @@ sub instruction{
     print "   merge      Join two development histories together\n\n";
     exit 1;
 }
-
-
 sub commitseq{
 	$count=0;
 	if ( ! -d "$fullpath/.commit_0"){
@@ -39,8 +29,6 @@ sub commitseq{
 	}
 	return $count;
 }
-
-
 sub is_exist{
 	if ( ! -d "$legitdir" ){
 		print "legit-branch: error: no $legitdir directory containing legit repository exists\n";
@@ -51,41 +39,16 @@ sub is_exist{
 		exit 1;
 	}
 }
-
-# three options
-#	1. return all commits from the current branch 
-#	2. delete specified branch 
-# 	3. create new branch
-
-sub branch_inf_reader{
-	my ($option) = @_;
-	open F,"<","$fullpath/.branch_inf";
-	foreach $f (<F>) {
-		$current_branch=$f;
-		chomp($current_branch);
-	}
-	close F;
-
-	if ($option == 1){
-		my @list = ();
-		open F, "<" ,"$fullpath/$current_branch" or die "cannot open $fullpath/$current_branch!\n";;
-		foreach $commit (<F>){
-			push @list,$commit;
-		}
-		close F;
-		return @list;
-	}
-
-}
-
-
+# sub check_legit {
+# 	&is_exist;
+# 	$seq= &commitseq;
+# }
 # three options
 #	1. list all branch
 #	2. delete specified branch 
 # 	3. create new branch
 sub branch {
-	( my $option, my $bname ) = @_;
-
+	(  my $option,my $bname ) = @_;
 	if ( $option == 1 ){
 	@branchname=();
 	foreach $file ( glob "$fullpath/*" ) {
@@ -101,7 +64,6 @@ sub branch {
 		}
 	exit 0;
 	}
-
 	if ( $option == 2 ){
 		if ( $bname eq "master"){
             print "legit-branch: error: can not delete branch '$bname'\n";
@@ -112,29 +74,21 @@ sub branch {
             exit 1;
 		}
 		else{
-            unlink("$fullpath/Branch.$bname");
+            unlink("$fullpath/branch.$bname");
             print "Deleted branch '$bname'\n";
         }
 	}
 
 	if ( $option == 3 ){
-		if (( -e "$fullpath/Branch\.$bname") || ( $bname eq "master" )){
+		if (( -e "$fullpath/Branch\.$bname") && ( $bname eq "master" )){
 			print "legit-branch: error: branch '$bname' already exists\n";
             exit 1;
 		}else{
-			my @list = &branch_inf_reader(1);
 			open F, ">" ,"$fullpath/Branch\.$bname";
-			foreach $ele ( @list ){
-				print F "$ele";
-			}
 			close F;
 		}
 	}
 }
-
-
-
-
 sub check_branchname{
 	($arg)=@_;
 	if ( $arg =~ /^[^_a-zA-Z0-9\-]/ 
@@ -143,13 +97,10 @@ sub check_branchname{
 				print "legit-branch: error: invalid branch name '$arg'\n";
 		        exit 1;
 }
-
 sub main(){
 	&is_exist();
-	&branch_inf_reader();
 	$delete=0;
 	my @branchname=();
-
 	foreach $arg ( @ARGV ){
 		if ( $arg eq "-d" ){	
 			$delete=1;
@@ -157,7 +108,6 @@ sub main(){
 			push @branchname,$arg;
 			}
 		}
-
 	if ( @branchname == 0 && $delete != 1 ){
 		&branch(1,$branchname[0]);
 	}
@@ -179,5 +129,4 @@ sub main(){
 	}
 }
 }
-
 &main();
