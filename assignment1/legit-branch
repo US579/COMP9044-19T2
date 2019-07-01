@@ -58,14 +58,15 @@ sub is_exist{
 # 	3. create new branch
 
 sub branch_inf_reader{
-	open F,"<","$fullpath/HEAD";
+	my ($option) = @_;
+	open F,"<","$fullpath/HEAD" or die "cannot open HEAD!\n";
 	foreach $f (<F>) {
 		$current_branch=$f;
 		chomp($current_branch);
 	}
 	close F;
 
-	if ($_ == 1){
+	if ($option == 1){
 		my @list = ();
 		open F1, "<" ,"$fullpath/$current_branch" or die "cannot open $fullpath/$current_branch!\n";;
 		foreach $commit (<F>){
@@ -74,7 +75,6 @@ sub branch_inf_reader{
 		close F1;
 		return @list;
 	}
-
 }
 
 
