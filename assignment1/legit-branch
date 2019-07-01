@@ -74,7 +74,7 @@ sub branch {
             exit 1;
 		}
 		else{
-            unlink("$fullpath/branch.$bname");
+            unlink("$fullpath/Branch.$bname");
             print "Deleted branch '$bname'\n";
         }
 	}
