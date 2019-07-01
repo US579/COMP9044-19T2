@@ -4,10 +4,29 @@
 $legitdir='.legit';
 $sub_legitdir='.git';
 $fullpath="$legitdir/$sub_legitdir";
+$indexdir="objects";
+
+use File::Compare;
+use File::Copy;
 
 # Subset 2
 # function 2 checkout
 # legit-checkout switches branches
+
+sub usage {
+    print("Usage: legit.pl <command> [<args>]\n\n",
+"These are the legit commands:\n",
+"   init       Create an empty legit repository\n",
+"   add        Add file contents to the index\n",
+"   commit     Record changes to the repository\n",
+"   log        Show commit log\n",
+"   show       Show file at particular state\n",
+"   rm         Remove files from the current directory and from the index\n",
+"   status     Show the status of files in the current directory, index, and repository\n",
+"   branch     list, create or delete a branch\n",
+"   checkout   Switch branches or restore current directory files\n",
+"   merge      Join two development histories together\n\n");
+}
 
 # Check wether the git repository exists 
 sub is_exist{
@@ -17,9 +36,31 @@ sub is_exist{
 	}
 }
 
+sub latest_commit_seq{
+	(my $option,my $name)=@_;
+	if ($option==1){
+		$cur=&branch_inf_reader();
+		@commit1=();
+		open F,"<","$fullpath/Branch.$cur" or die "can't not open file Branch.$cur";
+		foreach $f1 (<F>){
+			push @commit1,$f1;
+		}
+		close F;
+		return (reverse sort @commit1)[0];
+	}
+	if ($option==2){
+		@commit2=();
+		open F,"<","$fullpath/Branch.$name" or die "can't not open file Branch.$name";
+		foreach $f1 (<F>){
+			push @commit2,$f1;
+		}
+		close F;
+		return (reverse sort @commit2)[0];
+	}
+}
 
 sub branch_inf_reader{
-	open F,"<","$fullpath/.branch_inf";
+	open F,"<","$fullpath/HEAD";
 	foreach $f (<F>) {
 		$current_branch=$f;
 		chomp($current_branch);
@@ -28,10 +69,10 @@ sub branch_inf_reader{
 	$current_branch =~ s/Branch.//;
 	return $current_branch;
 }
+
 sub checkfile{
 	my ($file) = @_; 
-	#$file = $file; 
-	if ( ! -e "$fullpath/$file" ){
+	if ( ! -e "$fullpath/Branch.$file" ){
 		print "legit-checkout: error: unknown branch '$file'\n";
         exit 1;
 	}
@@ -39,21 +80,84 @@ sub checkfile{
 		print "Already on '$file'\n";
         exit 0;
 	}
+
 }
 
+sub overwritten{
+	(my $cur , my $new ,my $branchname )=@_;
+	if ( $cur == $new ){
+		return;
+	}
+	@overwrite=();
+
+	foreach $f (glob "*"){
+		if (($f =~ "legit-*") || ($f =~ "diary.txt")){
+			next;
+		}
+
+    	if ((compare($f,"$fullpath/$indexdir/$f") != 0) && (compare($f,"$fullpath/\.commit_$cur/$f")!=0) && (compare($f,"$fullpath/\.commit_$new/$f")!=0)){
+    		push @overwrite , $f;
+    		}
+    		
+    	}
+    if (@overwrite>0){
+	print "legit-branch: error: Your changes to the following files would be overwritten by checkout:\n";
+    foreach my $f1 (sort @overwrite){
+        print "$f1\n";
+    }
+    exit 1;
+	}
+}
 
 
 sub main{
+	$branchname=$ARGV[0];
 	&is_exist();
     if (@ARGV != 1){
-        print "usage: legit.pl checkout <branch>\n";
+        print "usage: legit-checkout <branch>\n";
         exit 1;
     }
-    &checkfile($ARGV[0]);
+
+    &checkfile($branchname);
+	$cur=&latest_commit_seq(1,$branchname);
+    $new=&latest_commit_seq(2,$branchname);
+    $cur =~ s/.*://;
+    $new =~ s/.*://;
+    &overwritten($cur,$new,$branchname);
+
+    open F,"<" ,"$fullpath/HEAD";
+    print F "$branchname";
+    close F;
+    
+
+	# if file exists in current branch last commit but not exists 
+	# in new branch last commit,delete it 
+    foreach $f_cur ( glob "$fullpath/\.commit_$cur/*" ){
+    	$curfile=basename($f_cur);
+		$newfile="$fullpath/\.commit_$new/$curfile";
+    	if ( ! -e $newfile){
+    		unlink($curfile);
+    	}
+    	# if file in new branch is not same as the file in current branch,
+    	# copy it to the working directory when switches to new branch
+    	if ( -e "$newfile" && compare($curfile,$newfile) != 0 && compare($f_cur,$curfile) == 0 ){
+    		copy("$newfile","$curfile") or die "Copying $newfile failed!\n";
+    	}
+
+    }
+    foreach $f_new (glob "$fullpath/\.commit_$new/*"){
+    	$newfile1=basename($f_new);
+    	if (! -e "$curfile"){
+    		copy("f_new",'$newfile1') or die  "Copying $newfile1 failed!\n";
+    	}
+    	elsif (! -e "$fullpath/$indexdir/$newfile1"){
+    		copy("$f_new","$fullpath/$indexdir/$newfile1") or die  "Copying $newfile1 failed!\n";
+    	}
+    }
+
+    print "Switched to branch '$branchname'\n"; 
 
 }
-
-
 
 &main();
 
