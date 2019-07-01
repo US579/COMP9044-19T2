@@ -122,11 +122,10 @@ sub main{
 
     &checkfile($branchname);
 	$cur=&latest_commit_seq(1,$branchname);
-    $new=&latest_commit_seq(2,$branchname);
     # print $cur,"\n";
     # print $new,"\n";
-
     $cur =~ s/.*://;
+    $new=&latest_commit_seq(2,$branchname);
     $new =~ s/.*://;
     chomp($cur);
     chomp($new);

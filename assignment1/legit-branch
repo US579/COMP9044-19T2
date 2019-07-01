@@ -5,7 +5,7 @@ $fullpath="$legitdir/$sub_legitdir";
 # $indexdir="objects";
 use File::Basename;
 sub instruction{
-	print "Usage: legit.pl <command> [<args>]\n";
+	print "Usage: legit.pl <command> [<args>]\n\n";
     print "These are the legit commands:\n";
     print "   init       Create an empty legit repository\n";
     print "   add        Add file contents to the index\n";
