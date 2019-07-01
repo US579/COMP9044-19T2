@@ -57,25 +57,25 @@ sub is_exist{
 #	2. delete specified branch 
 # 	3. create new branch
 
-sub branch_inf_reader {
-	my ($option2) = @_;
-	print $option2,"\n";
-	open F,"<","$fullpath/HEAD" or die "cannot open HEAD!\n";
-	foreach $f ( <F> ) {
+sub branch_inf_reader{
+	my ($option) = @_;
+	open F,"<","$fullpath/.branch_inf";
+	foreach $f (<F>) {
 		$current_branch=$f;
 		chomp($current_branch);
 	}
 	close F;
 
-	if ($option2 == 1){
+	if ($option == 1){
 		my @list = ();
-		open F1, "<" ,"$fullpath/$current_branch" or die "cannot open $fullpath/$current_branch!\n";;
+		open F, "<" ,"$fullpath/$current_branch" or die "cannot open $fullpath/$current_branch!\n";;
 		foreach $commit (<F>){
 			push @list,$commit;
 		}
-		close F1;
+		close F;
 		return @list;
 	}
+
 }
 
 
@@ -84,9 +84,9 @@ sub branch_inf_reader {
 #	2. delete specified branch 
 # 	3. create new branch
 sub branch {
-	( my $option1, my $bname ) = @_;
+	( my $option, my $bname ) = @_;
 
-	if ( $option1 == 1 ){
+	if ( $option == 1 ){
 	@branchname=();
 	foreach $file ( glob "$fullpath/*" ) {
 		if (basename($file) =~ /Branch\..*/){
@@ -102,7 +102,7 @@ sub branch {
 	exit 0;
 	}
 
-	if ( $option1 == 2 ){
+	if ( $option == 2 ){
 		if ( $bname eq "master"){
             print "legit-branch: error: can not delete branch '$bname'\n";
             exit 1; 
@@ -117,18 +117,17 @@ sub branch {
         }
 	}
 
-
-	if ( $option1 == 3 ){
+	if ( $option == 3 ){
 		if (( -e "$fullpath/Branch\.$bname") || ( $bname eq "master" )){
 			print "legit-branch: error: branch '$bname' already exists\n";
             exit 1;
 		}else{
 			my @list = &branch_inf_reader(1);
-			open F3, ">" ,"$fullpath/Branch\.$bname";
+			open F, ">" ,"$fullpath/Branch\.$bname";
 			foreach $ele ( @list ){
-				print F3 "$ele";
+				print F "$ele";
 			}
-			close F3;
+			close F;
 		}
 	}
 }
@@ -182,4 +181,3 @@ sub main(){
 }
 
 &main();
-
