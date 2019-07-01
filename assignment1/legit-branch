@@ -59,7 +59,7 @@ sub is_exist{
 
 sub branch_inf_reader{
 	my ($option) = @_;
-	open F,"<","$fullpath/.branch_inf";
+	open F,"<","$fullpath/HEAD";
 	foreach $f (<F>) {
 		$current_branch=$f;
 		chomp($current_branch);
