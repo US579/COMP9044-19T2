@@ -51,9 +51,9 @@ sub is_exist{
 #	1. return all commits from the current branch 
 #	2. delete specified branch 
 # 	3. create new branch
+
 sub branch_inf_reader{
-	my $option = @_;
-	#$option=$option;
+	my ($option) = @_;
 	open F,"<","$fullpath/.branch_inf";
 	foreach $f (<F>) {
 		$current_branch=$f;
@@ -61,7 +61,6 @@ sub branch_inf_reader{
 	}
 	close F;
 
-	#print "option $option","\n";
 	if ($option == 1){
 		my @list = ();
 		open F, "<" ,"$fullpath/$current_branch" or die "cannot open $fullpath/$current_branch!\n";;
