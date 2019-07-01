@@ -47,13 +47,39 @@ sub is_exist{
 	}
 }
 
+# three options
+#	1. return all commits from the current branch 
+#	2. delete specified branch 
+# 	3. create new branch
+sub branch_inf_reader{
+	my $option = @_;
+	open F,"<","$fullpath/.branch_inf";
+	foreach $f (<F>) {
+		$current_branch=$f;
+		chomp($current_branch);
+	}
+	close F;
+
+	#print "option $option","\n";
+	if ($option == 1){
+		my @list = ();
+		open F, "<" ,"$fullpath/$current_branch" or die "cannot open $fullpath/$current_branch!\n";;
+		foreach $commit (<F>){
+			push @list,$commit;
+		}
+		close F;
+		return @list;
+	}
+
+}
+
 
 # three options
 #	1. list all branch
 #	2. delete specified branch 
 # 	3. create new branch
 sub branch {
-	(  my $option,my $bname ) = @_;
+	( my $option, my $bname ) = @_;
 
 	if ( $option == 1 ){
 	@branchname=();
@@ -87,15 +113,21 @@ sub branch {
 	}
 
 	if ( $option == 3 ){
-		if (( -e "$fullpath/Branch\.$bname") && ( $bname eq "master" )){
+		if (( -e "$fullpath/Branch\.$bname") || ( $bname eq "master" )){
 			print "legit-branch: error: branch '$bname' already exists\n";
             exit 1;
 		}else{
+			my @list = &branch_inf_reader(1);
 			open F, ">" ,"$fullpath/Branch\.$bname";
+			foreach $ele ( @list ){
+				print F "$ele";
+			}
 			close F;
 		}
 	}
 }
+
+
 
 
 sub check_branchname{
@@ -109,6 +141,7 @@ sub check_branchname{
 
 sub main(){
 	&is_exist();
+	&branch_inf_reader();
 	$delete=0;
 	my @branchname=();
 
