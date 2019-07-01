@@ -121,14 +121,11 @@ sub main{
     }
 
     &checkfile($branchname);
-    my $cur="1";
-    my $new="1";
-	$cur = &latest_commit_seq(1,$branchname);
-	print "curr   $cur";
+
+	my $cur = &latest_commit_seq(1,$branchname);
     $cur =~ s/.*://;
 
-    $new = &latest_commit_seq(2,$branchname);
-    print "sadas $new";
+    my $new = &latest_commit_seq(2,$branchname);
     $new =~ s/.*://;
 
 

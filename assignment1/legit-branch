@@ -104,7 +104,6 @@ sub branch {
 	}
 
 	if ( $option == 3 ){
-		print "***********";
 		if (( -e "$fullpath/Branch\.$bname") || ( $bname eq "master" )){
 			print "legit-branch: error: branch '$bname' already exists\n";
             exit 1;
@@ -145,7 +144,6 @@ sub main(){
 		&branch(2,$branchname[0]);
 	}
 	elsif ( @branchname == 1 ){
-		print "&&&&&&&&&";
 		&check_branchname($branchname[0]);
 		&branch(3,$branchname[0]);
 	}
