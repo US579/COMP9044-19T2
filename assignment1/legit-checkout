@@ -123,19 +123,46 @@ sub main{
     &checkfile($branchname);
 	$cur=&latest_commit_seq(1,$branchname);
     $new=&latest_commit_seq(2,$branchname);
+    # print $cur,"\n";
+    # print $new,"\n";
 
     $cur =~ s/.*://;
     $new =~ s/.*://;
+    chomp($cur);
+    chomp($new);
     &overwritten($cur,$new,$branchname);
 
     open F,">" ,"$fullpath/HEAD";
     print F "$branchname";
     close F;
 
-    $commitfile="\.commit\_$cur";
+	my @buff = glob("$fullpath/.commit_$cur/*");
+	foreach $f_cur ( @buff ){
+		$curfile=basename($f_cur);
+		$newfile="$fullpath/\.commit_$new/$curfile";
+		if ( ! -e $newfile){
+		unlink($curfile);
+		}
+		# if file in new branch is not same as the file in current branch,
+		# copy it to the working directory when switches to new branch
+		if ( -e "$newfile" && compare($curfile,$newfile) != 0 && compare($f_cur,$curfile) == 0 ){
+		copy("$newfile","$curfile") or die "Copying $newfile failed!\n";
+		}
+
+	}
+    foreach $f_new (glob "$fullpath/\.commit_$new/*"){
+    	$newfile1=basename($f_new);
+    	if (! -e "$newfile1"){
+    		copy("$f_new","$newfile1") or die  "Copying $newfile1 failed!\n";
+    	}
+    	if (! -e "$fullpath/$indexdir/$newfile1"){
+    		copy("$f_new","$fullpath/$indexdir/$newfile1") or die  "Copying $newfile1 failed!\n";
+    	}
+    }
+
+    print "Switched to branch '$branchname'\n"; 
 
 }
-
 
 
 &main();
