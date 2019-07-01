@@ -1,2 +1,59 @@
 #!/usr/bin/perl -w
+#written by Wanze Liu , z5137189
+
+$legitdir='.legit';
+$sub_legitdir='.git';
+$fullpath="$legitdir/$sub_legitdir";
+
+# Subset 2
+# function 2 checkout
+# legit-checkout switches branches
+
+# Check wether the git repository exists 
+sub is_exist{
+	if ( ! -d "$legitdir" ){
+		print "legit-branch: error: no $legitdir directory containing legit repository exists\n";
+		exit 1;
+	}
+}
+
+
+sub branch_inf_reader{
+	open F,"<","$fullpath/.branch_inf";
+	foreach $f (<F>) {
+		$current_branch=$f;
+		chomp($current_branch);
+	}
+	close F;
+	$current_branch =~ s/Branch.//;
+	return $current_branch;
+}
+sub checkfile{
+	my ($file) = @_; 
+	#$file = $file; 
+	if ( ! -e "$fullpath/$file" ){
+		print "legit-checkout: error: unknown branch '$file'\n";
+        exit 1;
+	}
+	if ($file eq &branch_inf_reader()){
+		print "Already on '$file'\n";
+        exit 0;
+	}
+}
+
+
+
+sub main{
+	&is_exist();
+    if (@ARGV != 1){
+        print "usage: legit.pl checkout <branch>\n";
+        exit 1;
+    }
+    &checkfile($ARGV[0]);
+
+}
+
+
+
+&main();
 

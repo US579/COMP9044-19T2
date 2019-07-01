@@ -53,6 +53,7 @@ sub is_exist{
 # 	3. create new branch
 sub branch_inf_reader{
 	my $option = @_;
+	#$option=$option;
 	open F,"<","$fullpath/.branch_inf";
 	foreach $f (<F>) {
 		$current_branch=$f;
