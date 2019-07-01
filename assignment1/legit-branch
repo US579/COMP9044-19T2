@@ -19,6 +19,30 @@ sub instruction{
     print "   merge      Join two development histories together\n\n";
     exit 1;
 }
+
+# three options
+#	1. return all commits from the current branch 
+#	2. delete specified branch 
+# 	3. create new branch
+sub branch_inf_reader{
+	my ($option) = @_;
+	open F,"<","$fullpath/HEAD";
+	foreach $f (<F>) {
+		$current_branch=$f;
+		chomp($current_branch);
+	}
+	close F;
+	if ($option == 1){
+		my @list = ();
+		open F, "<" ,"$fullpath/Branch.$current_branch" or die "cannot open $fullpath/$current_branch!\n";;
+		foreach $commit (<F>){
+			push @list,$commit;
+		}
+		close F;
+		return @list;
+	}
+}
+
 sub commitseq{
 	$count=0;
 	if ( ! -d "$fullpath/.commit_0"){
@@ -80,7 +104,8 @@ sub branch {
 	}
 
 	if ( $option == 3 ){
-		if (( -e "$fullpath/Branch\.$bname") && ( $bname eq "master" )){
+		print "***********";
+		if (( -e "$fullpath/Branch\.$bname") || ( $bname eq "master" )){
 			print "legit-branch: error: branch '$bname' already exists\n";
             exit 1;
 		}else{
@@ -120,11 +145,12 @@ sub main(){
 		&branch(2,$branchname[0]);
 	}
 	elsif ( @branchname == 1 ){
+		print "&&&&&&&&&";
 		&check_branchname($branchname[0]);
 		&branch(3,$branchname[0]);
 	}
 	elsif (@branchname == 0 && $delete == 1){
-		print "legit.pl: error: branch name required\n";
+		print "legit-branch: error: branch name required\n";
 		exit 1;
 	}
 	else{
