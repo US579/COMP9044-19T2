@@ -1,4 +1,4 @@
-#!/usr/bin/perl 
+#!/usr/bin/perl -w
 #written by Wanze Liu , z5137189
 
 $legitdir='.legit';
@@ -122,6 +122,7 @@ sub main{
 
     &checkfile($branchname);
 	$cur=&latest_commit_seq(1,$branchname);
+    
     # print $cur,"\n";
     # print $new,"\n";
     $cur =~ s/.*://;
