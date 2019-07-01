@@ -122,11 +122,11 @@ sub branch {
             exit 1;
 		}else{
 			my @list = &branch_inf_reader(1);
-			open F, ">" ,"$fullpath/Branch\.$bname";
+			open F3, ">" ,"$fullpath/Branch\.$bname";
 			foreach $ele ( @list ){
-				print F "$ele";
+				print F3 "$ele";
 			}
-			close F;
+			close F3;
 		}
 	}
 }
