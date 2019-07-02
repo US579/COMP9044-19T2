@@ -44,7 +44,7 @@ if (@ARGV==2 && $ARGV[0] eq "load"){
 	mkdir( ".snapshot.$num"  ) or die "cannot create '.snapshot.$num' !";
 	foreach $f3 (glob "*"){
 		if ($f3 !~ ".*\.pl"){
-	copy("$f2",".snapshot.$num");
+	copy("$f3",".snapshot.$num");
 		}
 	}	
 	print "Creating snapshot $num\n";
@@ -52,7 +52,7 @@ if (@ARGV==2 && $ARGV[0] eq "load"){
 	foreach $f4 (glob " ./.snapshot.$ARGV[1]/*"){
 	copy("$f4","./");
 	}	
-	print "Creating snapshot $ARGV[1]\n"
+	print "Restoring snapshot $ARGV[1]\n"
 }
 
 
