@@ -39,7 +39,6 @@ else
 	@arry=();
 	foreach $file (glob ".*"){
 		if ( $file =~ /\.$name/ ){
-			print $file,"\n";
 			$file =~ s/.*\.//g;
 			chomp($file);
 			push @arry ,$file;
@@ -47,7 +46,6 @@ else
 		}
 	}
 	$seq = &max(@arry);
-	print @seq;
 	$seq += 1;
 	open F ,"<", "$name" or die "cannot open '$name'";
 	foreach $line (<F>){
