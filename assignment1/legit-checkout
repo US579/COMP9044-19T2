@@ -139,10 +139,22 @@ sub main{
     close F;
 
 
+    # delete all the file in index that same as the last commit
+    my @indexdir = glob("$fullpath/$indexdir/*");
+    my @indexfile_lis =();
+    foreach $index (@indexdir){
+    	my $curindex=basename($index);
+    	if ( -e "$fullpath/.commit_$cur/$curindex" && compare("$fullpath/.commit_$cur/$curindex","$index")){
+    		push @indexfile_lis , $curindex;
+    		unlink ("$index");
+    	}
+    }
+
+
 	my @buff = glob("$fullpath/.commit_$cur/*");
 	foreach $f_cur ( @buff ){
-		$curfile=basename($f_cur);
-		$newfile="$fullpath/\.commit_$new/$curfile";
+		my $curfile=basename($f_cur);
+		my $newfile="$fullpath/\.commit_$new/$curfile";
 		if ( ! -e $newfile){
 		unlink($curfile);
 		}
@@ -154,6 +166,8 @@ sub main{
 	}
 
 
+
+
 	my @buff1 = glob("$fullpath/.commit_$new/*");
     foreach $f_new ( @buff1 ){
     	$newfile1=basename($f_new);
@@ -162,6 +176,16 @@ sub main{
     	}
     	if (! -e "$fullpath/$indexdir/$newfile1"){
     		copy("$f_new","$fullpath/$indexdir/$newfile1") or die  "Copying $newfile1 failed!\n";
+    	}
+    }
+
+    
+    foreach $f_commit (@buff1){
+    	my $base=basename($f_new);
+    	foreach $f_index (@indexfile_lis){
+    		if ( $base eq $f_index ){
+    			copy("$f_commit" , "$fullpath/$indexdir/$base") or die  "Copying $f_commit failed!\n";
+    		}
     	}
     }
 
