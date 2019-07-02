@@ -144,7 +144,7 @@ sub main{
     my @indexfile_lis =();
     foreach $index (@indexdir){
     	my $curindex=basename($index);
-    	if ( -e "$fullpath/.commit_$cur/$curindex" && compare("$fullpath/.commit_$cur/$curindex","$index")){
+    	if ( -e "$fullpath/.commit_$cur/$curindex" && compare("$fullpath/.commit_$cur/$curindex","$index") == 0){
     		push @indexfile_lis , $curindex;
     		unlink ("$index");
     	}
