@@ -17,10 +17,8 @@ else
 	done
 fi
 
-
 new=`echo $num | tr " "  "\n" | sort -n | tail -1` > /dev/null
-
 new=$((new +1 ))
-
 cat $name > ".$name.$new"
+echo "Backup of '$name' saved as '.$name.$new'"
 
