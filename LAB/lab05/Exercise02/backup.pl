@@ -1,8 +1,21 @@
 #!/usr/bin/perl -w
 
 
+
+
 if (@ARGV==0){
 	print "backup.pl error: backup.pl <file>";
+}
+
+sub max{
+	my (@array)=@_;
+	my $max = $array[0];
+	foreach $i (@array){
+		if ($max< $i){
+			$max = $i;
+		}
+	}
+	return $max;
 }
 
 
@@ -25,13 +38,16 @@ else
 {	
 	@arry=();
 	foreach $file (glob ".*"){
-		if ( $file =~ /\.$name\.[0-9]*/ ){
+		if ( $file =~ /\.$name/ ){
+			print $file,"\n";
 			$file =~ s/.*\.//g;
+			chomp($file);
 			push @arry ,$file;
 
 		}
 	}
-	$seq = (reverse sort @arry)[0];
+	$seq = &max(@arry);
+	print @seq;
 	$seq += 1;
 	open F ,"<", "$name" or die "cannot open '$name'";
 	foreach $line (<F>){
