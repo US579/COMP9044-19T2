@@ -179,9 +179,9 @@ sub main{
     	}
     }
 
-    
+
     foreach $f_commit (@buff1){
-    	my $base=basename($f_new);
+    	my $base=basename($f_commit);
     	foreach $f_index (@indexfile_lis){
     		if ( $base eq $f_index ){
     			copy("$f_commit" , "$fullpath/$indexdir/$base") or die  "Copying $f_commit failed!\n";
