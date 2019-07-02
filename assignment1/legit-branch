@@ -29,12 +29,14 @@ sub branch_inf_reader{
 	open F,"<","$fullpath/HEAD";
 	foreach $f (<F>) {
 		$current_branch=$f;
+		print $f;
 		chomp($current_branch);
 	}
 	close F;
 
 	if ($option == 1){
 		my @list = ();
+		print $current_branch;
 		open A, "<" ,"$fullpath/$current_branch" or die "777cannot open $fullpath/$current_branch!\n";;
 		foreach $commit (<A>){
 			push @list,$commit;
