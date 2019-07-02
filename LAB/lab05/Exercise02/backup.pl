@@ -25,7 +25,7 @@ else
 {	
 	@arry=();
 	foreach $file (glob ".*"){
-		if ( $file =~ /\.$name\.[0-9]+/ ){
+		if ( $file =~ /\.$name\.[0-9]*/ ){
 			$file =~ s/.*\.//g;
 			push @arry ,$file;
 
