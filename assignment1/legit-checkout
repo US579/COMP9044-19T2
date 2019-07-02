@@ -103,7 +103,7 @@ sub overwritten{
     		
     	}
     if (@overwrite>0){
-	print "legit-branch: error: Your changes to the following files would be overwritten by checkout:\n";
+	print "legit-checkout: error: Your changes to the following files would be overwritten by checkout:\n";
     foreach my $f1 (sort @overwrite){
         print "$f1\n";
     }
