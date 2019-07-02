@@ -25,6 +25,7 @@ fi
 
 lastseq
 seq="$?"
+echo $seq
 mkdir ".$backdir.$seq"
 for f in `ls`
 do
@@ -32,6 +33,12 @@ do
 done
 echo "Creating snapshot $seq"
 
+
+# for f1 in `ls ".$backdir.$1"`
+# do 
+#     echo $f1
+#     cp -rf "$f1" "."
+# done
 cp  ./.$backdir.$1/* .
 echo "Restoring snapshot $1"
 
