@@ -147,6 +147,8 @@ commit()
         #then
          #   echo "&&&&&&&&&&&&&"
         #fi
+        currentbranch=`cat $fullpath/HEAD`
+
         if ( [ ! -d $fullpath/.commit_0 ] && [ "`ls $fullpath/$indexdir`" != "" ]) 
         then
             mkdir $fullpath/.commit_0
@@ -167,7 +169,7 @@ commit()
             mkdir $commitdir
             echo "$@" | sed "s/-m //" > "$fullpath/.commit_$last_num/.commit_message"
             cp $fullpath/$indexdir/* $commitdir >/dev/null  2>&1
-            echo "COMMIT:$last_num" >> $fullpath/Branch.master
+            echo "COMMIT:$last_num" >> $fullpath/Branch.$currentbranch
             echo "Committed as commit $last_num"
         else
             echo "nothing to commit"
