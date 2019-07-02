@@ -34,14 +34,19 @@ lastseq(){
 if !(test -e ".$backdir.0")
 then
 	mkdir ".$backdir.0"
+	for f in `ls`
+	do
+		cp "$f" "./.$backdir.0"
+	done
+	echo "Creating snapshot 0"
 else
 	lastseq
 	seq="$?"
 	mkdir ".$backdir.$seq"
 	for f in `ls`
 	do
-		echo $f
 		cp "$f" "./.$backdir.$seq"
 	done
+	echo "Creating snapshot $seq"
 fi
 
