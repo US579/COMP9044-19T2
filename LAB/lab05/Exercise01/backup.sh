@@ -5,6 +5,7 @@ name=$@
 if !( test -e ".$name.0")
 then 
     cat $name > ".$name.0"
+    echo "Backup of '$name' saved as '.$name.0'"
     exit 0
 else
 	for i in `ls -a`
