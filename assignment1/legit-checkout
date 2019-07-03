@@ -15,21 +15,6 @@ use File::Path;
 # function 2 checkout
 # legit-checkout switches branches
 
-sub usage {
-    print("Usage: legit.pl <command> [<args>]\n\n",
-"These are the legit commands:\n",
-"   init       Create an empty legit repository\n",
-"   add        Add file contents to the index\n",
-"   commit     Record changes to the repository\n",
-"   log        Show commit log\n",
-"   show       Show file at particular state\n",
-"   rm         Remove files from the current directory and from the index\n",
-"   status     Show the status of files in the current directory, index, and repository\n",
-"   branch     list, create or delete a branch\n",
-"   checkout   Switch branches or restore current directory files\n",
-"   merge      Join two development histories together\n\n");
-}
-
 # Check wether the git repository exists 
 sub is_exist{
 	if ( ! -d "$legitdir" ){
@@ -38,6 +23,10 @@ sub is_exist{
 	}
 }
 
+# open the branch file to extract the last commit number in that branch and return
+# two options 
+# 1 . get current branch last commit number
+# 2 . get the last commit number that we want to switche to 
 sub latest_commit_seq{
 	(my $option,my $name)=@_;
 	if ($option==1){
@@ -61,6 +50,7 @@ sub latest_commit_seq{
 	}
 }
 
+# get the current branch name 
 sub branch_inf_reader{
 	open F,"<","$fullpath/HEAD";
 	foreach $f (<F>) {
@@ -72,6 +62,7 @@ sub branch_inf_reader{
 	return $current_branch;
 }
 
+# check wether the branch is exist or alread in that branch
 sub checkfile{
 	my ($file) = @_; 
 	if ( ! -e "$fullpath/Branch.$file" ){
@@ -85,6 +76,8 @@ sub checkfile{
 
 }
 
+# the function 
+# make sure that change the branch will not overwrite the exist file 
 sub overwritten{
 	(my $cur , my $new ,my $branchname )=@_;
 	if ( $cur == $new ){
@@ -111,7 +104,8 @@ sub overwritten{
 }
 
 
-
+# mian function
+# file processing 
 sub main{
 	my $branchname=$ARGV[0];
 	&is_exist();
