@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #written by Wanze Liu , z5137189
 
 legitdir='.legit'
@@ -196,6 +196,12 @@ main()
         if (echo $file | egrep -v "^-") >/dev/null
         then
         check $file $force $cached
+        fi
+    done
+    for file in $@
+    do
+        if (echo $file | egrep -v "^-") >/dev/null
+        then
         rm_file $cached $file
         fi
     done
