@@ -33,6 +33,7 @@ commitseq_chekout()
     return $num
 }
 
+
 commitseq_chekout
 #function : compare the two file 
 # three options
@@ -174,5 +175,5 @@ status()
 
 }
 
-
+# call function
 status 
