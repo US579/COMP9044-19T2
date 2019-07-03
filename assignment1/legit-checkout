@@ -91,7 +91,6 @@ sub overwritten{
 		return;
 	}
 	@overwrite=();
-
 	foreach $f (glob "*"){
 		if (($f =~ "legit-*") || ($f =~ "diary.txt")){
 			next;
@@ -110,44 +109,6 @@ sub overwritten{
     exit 1;
 	}
 }
-
-# @overwrite=();
-# sub overwritten{
-# 	(my $cur , my $new )=@_;
-# 	foreach my $wkfile (glob "*"){
-# 		my $curcommitdir = "$fullpath/.commit_$cur";
-#         my $newcommitdir = "$fullpath/.commit_$new";
-# 		  if ((! -e "$curcommitdir/$wkfile") or compare("$wkfile", "$curcommitdir/$wkfile") == 1){
-#             if (( -e "$newcommitdir/$wkfile")){
-#                 open N, '<', "$newcommitdir/$wkfile" or die "cannot open $newcommitdir/$wkfile\n";
-#                 my @newcontent = <N>;
-#                 close N;
-
-#                 open W, '<', "$wkfile" or die "cannot open $wkfile\n";
-#                 my @wkcontent = <W>;
-#                 close W;
-
-#                 my $linenum = 0;
-#                 while ($linenum < @newcontent){
-#                     if ($linenum >= @wkcontent or $newcontent[$linenum] ne $wkcontent[$linenum]){
-#                         push @overwrite, $wkfile;
-#                         last;
-#                     }
-#                     $linenum += 1;
-#                 }
-#             } 
-#         }
-# 	}
-# 	if (@overwrite>0){
-# 	print "legit-checkout: error: Your changes to the following files would be overwritten by checkout:\n";
-#     foreach my $f1 (sort @overwrite){
-#         print "$f1\n";
-#     }
-#     exit 1;
-# 	}
-
-# }
-
 
 
 
