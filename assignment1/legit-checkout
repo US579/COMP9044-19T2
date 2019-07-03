@@ -96,7 +96,7 @@ sub overwritten{
 		if (($f =~ "legit-*") || ($f =~ "diary.txt")){
 			next;
 		}
-		if ( -e "$fullpath/\.commit_$new/$f" || compare($f ,"$fullpath/.commit_$cur/$f") ==1 && ! -e "$fullpath/\.commit_$cur/$f" ) {
+		if ( -e "$fullpath/\.commit_$new/$f" ) {
 
     	if ((compare($f,"$fullpath/$indexdir/$f") != 0) && (compare($f,"$fullpath/\.commit_$cur/$f")!=0) && (compare($f,"$fullpath/\.commit_$new/$f")!=0)){
     		push @overwrite , $f;
