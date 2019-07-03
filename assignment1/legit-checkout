@@ -173,7 +173,7 @@ sub main{
     chomp($cur);
     chomp($new);
 
-    &overwritten($cur,$new);
+    &overwritten($cur,$new,$branchname);
 
     open F,">" ,"$fullpath/HEAD";
     print F "$branchname";
