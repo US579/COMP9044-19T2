@@ -8,20 +8,32 @@ indexdir="objects"
 
 
 #function : return the latest commit number 
-commitseq()
+# commitseq()
+# {
+
+#     count=0
+#     while ( test $count -ge 0 )
+#     do
+#         if [ -d "$fullpath/.commit_$count" ]
+#         then
+#             count=$(( count+1 ))
+#         else
+#             return $count
+#         fi
+#     done
+# }
+
+
+#function : return the latest commit number in that branch
+commitseq_chekout()
 {
-    count=0
-    while ( test $count -ge 0 )
-    do
-        if [ -d "$fullpath/.commit_$count" ]
-        then
-            count=$(( count+1 ))
-        else
-            return $count
-        fi
-    done
+
+    current_branch=`cat $fullpath/HEAD`
+    num=`cat "$fullpath/Branch.$current_branch" | tail -1 | sed "s/.*://"`
+    return $num
 }
 
+commitseq_chekout
 #function : compare the two file 
 # three options
 file_compare()
@@ -89,9 +101,8 @@ file_compare()
 #function to show the file status , get one input
 status_show()
 {	
-	commitseq
-    last_num="$?"
-    pre_seq=$((last_num-1))
+    commitseq_chekout
+    pre_seq="$?"
     #work == current directory
     #index == objects directory
     #last == repository last commit file
@@ -133,9 +144,8 @@ status_show()
 
 status()
 {
-	commitseq
-    last_num="$?"
-    pre_seq=$((last_num-1))
+	commitseq_chekout
+    pre_seq="$?"
     
 	for f_current in `ls`
 	do
