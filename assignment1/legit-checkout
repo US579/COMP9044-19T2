@@ -112,6 +112,7 @@ sub checkfile{
 
 @overwrite=();
 sub overwritten{
+	(my $cur , my $new )=@_;
 	foreach my $wkfile (glob "*"){
 		my $curcommitdir = "$fullpath/.commit_$cur";
         my $newcommitdir = "$fullpath/.commit_$new";
@@ -171,7 +172,7 @@ sub main{
     chomp($cur);
     chomp($new);
 
-    # &overwritten($cur,$new,$branchname);
+    &overwritten($cur,$new);
 
     open F,">" ,"$fullpath/HEAD";
     print F "$branchname";
