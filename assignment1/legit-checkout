@@ -97,10 +97,10 @@ sub overwriten{
 			next;
 		}
 		if ( -e "$fullpath/\.commit_$new/$f" ) {
-
 		if ((compare($f,"$fullpath/$indexdir/$f") != 0) && (compare($f,"$fullpath/\.commit_$cur/$f")!=0) && (compare($f,"$fullpath/\.commit_$new/$f")!=0)){
 			push @overwrite , $f;
 				}
+			}
 		}	
     if (@overwrite>0){
 	print "legit-checkout: error: Your changes to the following files would be overwritten by checkout:\n";
