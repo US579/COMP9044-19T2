@@ -189,7 +189,6 @@ sub main{
     	}
     }
 
-    # 
     foreach $f_commit (@buff1){
     	my $base=basename($f_commit);
     	foreach $f_index (@indexfile_lis){
