@@ -1,12 +1,17 @@
-#!/bin/sh
+#!/bin/dash
 #written by Wanze Liu , z5137189
+
+
+# Subset 1
+# remove file from current working directory and index directory
 
 legitdir='.legit'
 sub_legitdir='.git'
 fullpath="$legitdir/$sub_legitdir"
 indexdir="objects"
 
-
+# function 1
+# return the latest num of the commit 
 commitseq()
 {
     count=0
@@ -21,13 +26,16 @@ commitseq()
     done
 }
 
+# function 2
+# file comparison function with three options
+# compare between current , index , last commit directory
 
 file_compare()
 {   
     filename=".commit_$3"
     last_commit="$fullpath/$filename/$2"
 
-    # option 2: compare specified file between working dir and index dir (used by rm, status)
+    # option 1: compare specified file between working dir and index dir (used by rm, status)
     if ( test $1 -eq 1 )
     then
         if ( test -e "$fullpath/$indexdir/$2")
@@ -45,7 +53,7 @@ file_compare()
         fi
     fi
 
-     # option 3: compare specified file between working dir and last commit 
+     # option 2: compare specified file between working dir and last commit 
     if ( test $1 -eq 2 )
     then
         if ( test -e "$last_commit")
@@ -63,7 +71,7 @@ file_compare()
         fi
     fi
 
-    # option 4: compare specified file between index dir and last commit 
+    # option 3: compare specified file between index dir and last commit 
     if ( test $1 -eq 3 )
     then
         if ( test -e "$last_commit" && test -e "$fullpath/$indexdir/$2")
@@ -84,6 +92,8 @@ file_compare()
     echo 0
 }
 
+# function 3
+# check wether the file is different before rm
 
 check()
 {
@@ -91,6 +101,7 @@ check()
     commitseq 
     last_num="$?" 
     pre_seq=$((last_num-1))
+
     #work == current directory
     #index == objects directory
     #last == repository last commit file
@@ -99,14 +110,11 @@ check()
     index_last=`file_compare 3 $1 $pre_seq`
     force=$2
     cached=$3
-    # echo "force $force "
-    # echo "cached $cached"
-    # echo $work_index
-    # echo $index_last
-    # echo $work_last
+
     if ( test $force -eq 0 )
     then
         # if file in index dir differs from working dir and last commit 
+        # all different 
         if (test $work_index -eq 1) && (test $index_last -eq 1)
         then 
             echo "legit-rm: error: '$1' in index is different to both working file and repository"
@@ -138,14 +146,22 @@ check()
 }
 
 
+
+# if cached specified 
+# remove file from index directory
+# otherwise , remove both 
 rm_file()
-{
+{   
+    # $1 : cached flag 
+    # $2 : file name 
+
+    # if cached flag == 0 , no cached needed 
     if ( test $1 -eq 0 )
     then
-        #echo "delete $2"
+        # remove file
         rm $2
     fi
-    #echo  "delete $fullpath/$indexdir/$2"
+    # remove file in index directory
     rm  $fullpath/$indexdir/$2
 }
 
@@ -190,7 +206,7 @@ main()
     fi
 
 
-
+    # loop STDIN input to check first , if file regulation broken , give error and exit
     for file in $@
     do
         if (echo $file | egrep -v "^-") >/dev/null
@@ -198,6 +214,8 @@ main()
         check $file $force $cached
         fi
     done
+
+    # loop STDIN input to remove 
     for file in $@
     do
         if (echo $file | egrep -v "^-") >/dev/null

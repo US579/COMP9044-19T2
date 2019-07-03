@@ -9,6 +9,8 @@ indexdir="objects"
 # Subset 0
 # function 4 log
 # The legit­show should print the contents of the specified file as of the specified commit. If the commit is omitted the contents of the file in the index should be printed.
+
+
 commitseq()
 {
     count=0
@@ -47,37 +49,31 @@ show()
     # get the version number and filename
     filename=`echo $1 | sed "s/.*://"`
     num=`echo $1 | sed "s/:.*//"`
-    #aviod invalid input
-   # if !( echo "$num" | egrep "^[0-9]+$")>/dev/null
-   # then
-   #     echo "legit-show: error: unknown commit '$num'"
-   #     exit 1
-   # fi
-   #if [ "$num" == "" ]
-   if [ -z "$num" ] 
+
+    if [ -z "$num" ] 
     then 
         commitseq 
         last_num="$?"
         pre_seq=$((last_num-1))
-        if [ ! -f $fullpath/.commit_$pre_seq/$filename ]
-        then
-            echo "legit-show: error: '$filename' not found in index"
-            exit 1
-        fi 
-        cat $fullpath/$indexdir/$filename 
+    if [ ! -f $fullpath/.commit_$pre_seq/$filename ]
+    then
+        echo "legit-show: error: '$filename' not found in index"
+        exit 1
+    fi 
+    cat $fullpath/$indexdir/$filename 
     else
-        if [ ! -d $fullpath/.commit_$num ]
-        then
-             echo "legit-show: error: unknown commit '$num'"
-             exit 1
-        fi
-        if [ ! -f $fullpath/.commit_$num/$filename ]
-        then
-            echo "legit-show: error: '$filename' not found in commit $num"
-            exit 1
-        fi
-        cat $fullpath/.commit_$num/$filename
-   fi 
+    if [ ! -d $fullpath/.commit_$num ]
+    then
+         echo "legit-show: error: unknown commit '$num'"
+         exit 1
+    fi
+    if [ ! -f $fullpath/.commit_$num/$filename ]
+    then
+        echo "legit-show: error: '$filename' not found in commit $num"
+        exit 1
+    fi
+    cat $fullpath/.commit_$num/$filename
+    fi 
 
 }
 

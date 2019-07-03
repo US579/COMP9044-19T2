@@ -8,6 +8,10 @@ indexdir="objects"
 # Function 2 commit
 # Saves a copy of all files in the index to the repository
 
+
+# function 1 
+# add file to the index directory
+
 add()
 {
     if  test "$#" -eq 0
@@ -52,6 +56,8 @@ add()
     fi
 }
 
+# function 2
+# retrun the last commit number in git directory
 commitseq()
 {
     count=0
@@ -66,6 +72,10 @@ commitseq()
     done
 }
 
+
+
+# function 3
+# compare two file 
 
 file_compare()
 {   
@@ -90,6 +100,7 @@ file_compare()
                 fi 
             fi 
         done
+
     #reverse iterate to find different file
     for ff in `ls "$fullpath/$indexdir/"`
     do
@@ -97,22 +108,22 @@ file_compare()
         obiect_dir="$dir/$ff"
         if [ ! -f $obiect_dir ]
         then
-            #echo "$ff not exist in $dir"
             return 1
         else
             diff "$dir/$ff" "$obiect_dir" >/dev/null  
             if [ $? != 0 ]
             then
-             #   echo 'differnet--------'
                 return 1
             else
-              #  echo "same+++++++++"
               continue
             fi
         fi    
     done 
 }
 
+# function 4
+# commit to the resporitory
+# format store all the commit file in the directory name ".commit_$num"
 
 commit()
 {
@@ -122,32 +133,24 @@ commit()
         exit 1
     fi
 
-    #[-a] option : update all the file from current directory to the object directory
+    # [-a] option : update all the file from current directory to the object directory
     buff=0
-   if ((test $# -ge 3) && (echo "$1" | egrep "\-a") && (echo "$2" | egrep "\-m")) >/dev/null 
+    if ((test $# -ge 3) && (echo "$1" | egrep "\-a") && (echo "$2" | egrep "\-m")) >/dev/null 
        then
            for i in `ls $fullpath/$indexdir`
                do 
                    add $i
                done
             buff=1 
-   fi
+    fi
 
-   if ( ( test $# -ge 2 ) && ( echo "$1" | egrep "\-m" ) ||  ( buff=1)) >/dev/null
+    if ( ( test $# -ge 2 ) && ( echo "$1" | egrep "\-m" ) ||  ( buff=1)) >/dev/null
     then
-        #echo "-mmmmmmmmmmmmmmmmmmmmmmmmm"
         commitseq 
         last_num="$?" 
         commitdir="$fullpath/.commit_$last_num"
-        #if  [ ! -d $fullpath/.commit_0 ]
-        #then
-        #    echo "asdasd"
-        #fi
-        #if ([ "`ls $fullpath/$indexdir`" != "" ])
-        #then
-         #   echo "&&&&&&&&&&&&&"
-        #fi
         currentbranch=`cat $fullpath/HEAD`
+        # if there is no commit ,inital with .commit_0
 
         if ( [ ! -d $fullpath/.commit_0 ] && [ "`ls $fullpath/$indexdir`" != "" ]) 
         then
@@ -159,11 +162,14 @@ commit()
             exit 0
         fi
 
+        # caculate the latest commit number where in resporitory
+
         pre_seq=$((last_num-1))
         file_compare $pre_seq
         flag=$?
-       # echo "singal is $flag"
-        #echo $last_num
+
+        # commit with the latest number 
+
         if ( test  $flag -eq 1 )
         then
             mkdir $commitdir
