@@ -96,11 +96,12 @@ sub overwritten{
 		if (($f =~ "legit-*") || ($f =~ "diary.txt")){
 			next;
 		}
+		if ( -e "$fullpath/\.commit_$new/$f" && ! -e "$fullpath/\.commit_$cur/$f" ) {
 
     	if ((compare($f,"$fullpath/$indexdir/$f") != 0) && (compare($f,"$fullpath/\.commit_$cur/$f")!=0) && (compare($f,"$fullpath/\.commit_$new/$f")!=0)){
     		push @overwrite , $f;
-    		}
-    		
+    			}
+    		}	
     	}
     if (@overwrite>0){
 	print "legit-checkout: error: Your changes to the following files would be overwritten by checkout:\n";
@@ -122,9 +123,11 @@ sub main{
 
     &checkfile($branchname);
 
+    #current branch
 	my $cur = &latest_commit_seq(1,$branchname);
     $cur =~ s/.*://;
 
+    #the branch need to switch 
     my $new = &latest_commit_seq(2,$branchname);
     $new =~ s/.*://;
 
@@ -132,31 +135,35 @@ sub main{
     chomp($cur);
     chomp($new);
 
-    &overwritten($cur,$new,$branchname);
+    # &overwritten($cur,$new,$branchname);
 
     open F,">" ,"$fullpath/HEAD";
     print F "$branchname";
     close F;
 
-
+    #这是对index directory的操作
     # delete all the file in index that same as the last commit
     my @indexdir = glob("$fullpath/$indexdir/*");
-    my @indexfile_lis =();
+    my @indexfile_lis = ();
     foreach $index (@indexdir){
     	my $curindex=basename($index);
+    	#if exists in the last commit directory and the file in the index directory is the same delete it and push into an array
     	if ( -e "$fullpath/.commit_$cur/$curindex" && compare("$fullpath/.commit_$cur/$curindex","$index") == 0){
     		push @indexfile_lis , $curindex;
     		unlink ("$index");
     	}
     }
 
-
+    #这是对current last commit directory的操作
 	my @buff = glob("$fullpath/.commit_$cur/*");
 	foreach $f_cur ( @buff ){
+		# current directory files
 		my $curfile=basename($f_cur);
-		my $newfile="$fullpath/\.commit_$new/$curfile";
+		# files in last commit of branch u want to switche to
+		my $newfile="$fullpath/.commit_$new/$curfile";
+		# if file not exists in the branch that we want switch to but in current branch , delete it 
 		if ( ! -e $newfile){
-		unlink($curfile);
+			unlink($curfile);
 		}
 		# if file in new branch is not same as the file in current branch,
 		# copy it to the working directory when switches to new branch
@@ -166,20 +173,24 @@ sub main{
 	}
 
 
-
-
+	#这是对即将装换的branch的last commit directory的操作
+	# refresh from the last commit directory of branch that u want ot switch to
 	my @buff1 = glob("$fullpath/.commit_$new/*");
     foreach $f_new ( @buff1 ){
     	$newfile1=basename($f_new);
+    	# if file not exist in the current directory 
+    	# copy it to current directory
     	if (! -e "$newfile1"){
     		copy("$f_new","$newfile1") or die  "Copying $newfile1 failed!\n";
     	}
+    	#if file not exist in the index directory 
+    	# copy it to current directory
     	if (! -e "$fullpath/$indexdir/$newfile1"){
     		copy("$f_new","$fullpath/$indexdir/$newfile1") or die  "Copying $newfile1 failed!\n";
     	}
     }
 
-
+    # 
     foreach $f_commit (@buff1){
     	my $base=basename($f_commit);
     	foreach $f_index (@indexfile_lis){
