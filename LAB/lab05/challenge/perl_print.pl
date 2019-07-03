@@ -7,7 +7,7 @@ print "#!/usr/bin/perl -w\n\n";
 #print F '#!/usr/bin/perl -w\n";
 print "print \"";
 foreach my $x (split (//,$str)) {
-	print $x;
+	printf "\\x%x", ord($x);
 }
 print "\\n\";\n"
 
