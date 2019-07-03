@@ -85,7 +85,7 @@ sub checkfile{
 
 }
 
-sub overwriten{
+sub overwritten{
 	(my $cur , my $new ,my $branchname )=@_;
 	if ( $cur == $new ){
 		return;
