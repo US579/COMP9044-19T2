@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #written by Wanze Liu , z5137189
 
 legitdir='.legit'
