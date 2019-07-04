@@ -31,7 +31,7 @@ log()
         echo 'legit-log: error: your repository does not have any commits yet'
         exit 1
     fi
-    
+    #iterate all the commit file to get commit message store in the .commit_message and print it out
     for file in `ls -ra $1 | grep ".comm"`
     do
         num=`echo $file | sed "s/.*_//"`
