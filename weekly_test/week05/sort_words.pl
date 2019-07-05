@@ -22,5 +22,6 @@ sub split{
 @list=();
 while ($x=<STDIN>){
 	$line=&split($x);
+	$line =~ s/^ //;
 	print "$line\n";
 }
