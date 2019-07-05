@@ -1,14 +1,18 @@
 #!/usr/bin/perl -w
 
 $filename=$ARGV[0];
-
 open F, "<", "$filename" or die "can not open!";
-# foreach $line ( F ){
-# 	print "$line\n";
-# }
-
+@lis=();
 while (<F>){
     $_ =~ tr /[0-9]*/#/;
-	print $_;
+	push @lis, $_;
 }
 close F;
+
+open F1, ">", "$filename" or die "can not open !";
+foreach $i ( @lis ){
+    print F1 $i;
+}
+close F1;
+
+
