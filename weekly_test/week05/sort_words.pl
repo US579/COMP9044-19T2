@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
 
-foreach $word (@ARGV){
+foreach $word (<STDIN>){
 	print $word;
 }
