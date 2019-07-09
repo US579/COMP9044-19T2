@@ -7,7 +7,7 @@ fi
 
 
 echo "test1 (add files (and status))"
-sh legit-init init >>output1.txt
+sh legit-init >>output1.txt
 touch a b c d e f
 touch output1.txt
 touch output2.txt
