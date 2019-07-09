@@ -5,44 +5,44 @@ then
     rm -rf ".legit/"
 fi
 
-
+# your output
 echo "test1 (add files (and status))"
-sh legit-init >>output1.txt
-touch a b c d e f
-touch output1.txt
-touch output2.txt
-sh legit-add a b c d e f
-sh legit-commit -m "hello" >>output1.txt
-sh legit-status >>output1.txt
+sh legit-init >>out1.txt
+touch a b c 
+touch out1.txt
+touch out2.txt
+sh legit-add a b c
+sh legit-commit -m "hello" >>out1.txt
+sh legit-status >>out1.txt
 rm -rf ".legit" &>/dev/null
-sh legit-init >>output1.txt
+sh legit-init >>out1.txt
 sh legit-add a b d e
-sh legit-commit -m "123" >>output1.txt
-sh legit-status >>output1.txt
+sh legit-commit -m "123" >>out1.txt
+sh legit-status >>out1.txt
 rm -rf ".legit" &>/dev/null
 
-2041 legit-init >>output2.txt
+# correct output
+2041 legit-init >>out2.txt
 2041 legit-add a b c d e f
-2041 legit-commit -m "123" >>output2.txt
-2041 legit-status >>output2.txt
+2041 legit-commit -m "123" >>out2.txt
+2041 legit-status >>out2.txt
 rm -rf ".legit" &>/dev/null
-2041 legit-init >>output2.txt
+2041 legit-init >>out2.txt
 2041 legit-add a b d e
-2041 legit-commit -m "123" >>output2.txt
-2041 legit-status >>output2.txt
+2041 legit-commit -m "123" >>out2.txt
+2041 legit-status >>out2.txt
 rm -rf ".legit" &>/dev/null
 
-#echo "$difference"
-if cmp -s "output1.txt" "output2.txt"
+if cmp -s "out1.txt" "out2.txt"
 then
-	echo "autotest passed congratulations!"
+	echo -e "\e[32mALL TEST PASSED\e[0m"
 else
-	echo "autotest failed, different output than expected see below"
-	echo "==============> your output <============================"
-	cat output1.txt
-	echo "==============> expected output <========================"
-	cat output2.txt
+	echo "\e[31mautotest failed, different output than expected see below\e[0m"
+	echo "=================> your output <============================"
+	cat out1.txt
+	echo "=================> expected output <========================"
+	cat out2.txt
 fi
 rm a b c d e f
-rm output1.txt
-rm output2.txt
+rm out1.txt
+rm out2.txt
