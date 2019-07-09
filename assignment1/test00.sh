@@ -21,15 +21,15 @@ sh legit-commit -m "123" >>output1.txt
 sh legit-status >>output1.txt
 rm -rf ".legit" &>/dev/null
 
-2041 legit init >>output2.txt
-2041 legit add a b c d e f
-2041 legit commit -m "123" >>output2.txt
-2041 legit status >>output2.txt
+2041 legit-init >>output2.txt
+2041 legit-add a b c d e f
+2041 legit-commit -m "123" >>output2.txt
+2041 legit-status >>output2.txt
 rm -rf ".legit" &>/dev/null
-2041 legit init >>output2.txt
-2041 legit add a b d e
-2041 legit commit -m "123" >>output2.txt
-2041 legit status >>output2.txt
+2041 legit-init >>output2.txt
+2041 legit-add a b d e
+2041 legit-commit -m "123" >>output2.txt
+2041 legit-status >>output2.txt
 rm -rf ".legit" &>/dev/null
 
 #echo "$difference"
