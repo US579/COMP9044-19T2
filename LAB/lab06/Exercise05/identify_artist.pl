@@ -10,7 +10,7 @@ else{
 
 
 $dir = shift @ARGV;
-$dir =~ s/0/\*/g;
+
 
 
 foreach $file (glob "lyrics/*.txt") {
