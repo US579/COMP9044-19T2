@@ -73,15 +73,15 @@ else
   echo -en "\e[31munknow object failed\n\e[0m"
 fi
 
-4. file not found
-std1="legit-show: error: 'c' not found in commit 0"
-out1=$(sh legit-show 0:c )
-if [ "$std1" = "$out1" ]
-then
-  echo -en "\e[32file not found PASSED\n\e[0m"
-else
-  echo -en "\e[31mfile not found failed\n\e[0m"
-fi
+# 5. file not found
+# std1="legit-show: error: 'c' not found in commit 0"
+# out1=$(sh legit-show 0:c )
+# if [ "$std1" = "$out1" ]
+# then
+#   echo -en "\e[32file not found PASSED\n\e[0m"
+# else
+#   echo -en "\e[31mfile not found failed\n\e[0m"
+# fi
 
 
 echo ""
