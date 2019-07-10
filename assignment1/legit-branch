@@ -4,22 +4,6 @@ $sub_legitdir='.git';
 $fullpath="$legitdir/$sub_legitdir";
 # $indexdir="objects";
 use File::Basename;
-sub instruction{
-	print "Usage: legit.pl <command> [<args>]\n\n";
-    print "These are the legit commands:\n";
-    print "   init       Create an empty legit repository\n";
-    print "   add        Add file contents to the index\n";
-    print "   commit     Record changes to the repository\n";
-    print "   log        Show commit log\n";
-    print "   show       Show file at particular state\n";
-    print "   rm         Remove files from the current directory and from the index\n";
-    print "   status     Show the status of files in the current directory, index, and repository\n";
-    print "   branch     list, create or delete a branch\n";
-    print "   checkout   Switch branches or restore current directory files\n";
-    print "   merge      Join two development histories together\n\n";
-    exit 1;
-}
-
 # three options
 #	1. return all commits from the current branch 
 #	2. delete specified branch 

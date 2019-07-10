@@ -11,7 +11,6 @@ indexdir="objects"
 
 # function 1 
 # add file to the index directory
-
 add()
 {
     if  test "$#" -eq 0
@@ -25,8 +24,16 @@ add()
         then
             mkdir "$fullpath/$indexdir"
         fi
+        # traverse the file that need to add 
         for file in $@
-        do
+        do  
+            #if the name of the file is not vlaid
+            if ( (echo "$file" | egrep -v '[_a-zA-Z0-9\.\-]') || (echo "$file" | egrep -v '^[a-zA-Z0-9]') ) >/dev/null
+            then
+                echo "legit-add: error: invalid filename '$file'"
+                exit 1
+            fi
+            #if file not exist in the current directory
             if !( test -e "$file" )
             then
                 #if file exist in the object directory and not exist in the current directory,remove the file from objects directory
@@ -35,19 +42,14 @@ add()
                     rm $fullpath/$indexdir/$file
                     exit 1
                 fi
-
                 echo "legit-add: error: can not open '$file'"
                 if ( test -e "$fullpath/$indexdir/$file")
-                then
+                then 
                     rm "$fullpath/$indexdir/$file"
                 fi
                 continue
-            elif ( (echo "$file" | egrep -v '[_a-zA-Z0-9\.\-]') || (echo "$file" | egrep -v '^[a-zA-Z0-9]') ) >/dev/null
-            then
-                echo "legit-add: error: invalid filename '$file'"
-                continue
-            else
-                cp "$file" "$fullpath/$indexdir" >/dev/null 
+            else 
+                cp "$file" "$fullpath/$indexdir"
             fi
         done
     else
@@ -55,6 +57,7 @@ add()
         exit 1
     fi
 }
+
 
 # function 2
 # retrun the last commit number in git directory
@@ -81,7 +84,6 @@ file_compare()
 {   
     filename=".commit_$1"
     dir="$fullpath/$filename"
-    #echo "$dir"
     #iterate the diractory to find differnt file 
     for f in `ls ${dir}`
         do  
@@ -95,7 +97,6 @@ file_compare()
                 then
                     return 1
                 else
-                   # echo "same"
                     continue
                 fi 
             fi 
@@ -104,7 +105,6 @@ file_compare()
     #reverse iterate to find different file
     for ff in `ls "$fullpath/$indexdir/"`
     do
-       # echo "$ff"
         obiect_dir="$dir/$ff"
         if [ ! -f $obiect_dir ]
         then
@@ -151,7 +151,6 @@ commit()
         commitdir="$fullpath/.commit_$last_num"
         currentbranch=`cat $fullpath/HEAD`
         # if there is no commit ,inital with .commit_0
-
         if ( [ ! -d $fullpath/.commit_0 ] && [ "`ls $fullpath/$indexdir`" != "" ]) 
         then
             mkdir $fullpath/.commit_0
