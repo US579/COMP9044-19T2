@@ -9,7 +9,8 @@ indexdir="objects"
 # print all the log in the .commit_message with its number
 
 log()
-{
+{   
+
     if [ ! -d $fullpath ]
     then
         echo "legit-log: error: no .legit directory containing legit repository exists"
@@ -19,7 +20,8 @@ log()
         echo 'legit-log: error: your repository does not have any commits yet'
         exit 1
     fi
-    if ! [ "`ls -a $fullpath/$indexdir`" = "" ]
+    count=`ls $fullpath/$indexdir |wc -w`
+    if  ( test $count -eq 0 )
     then
         echo 'legit-log: error: your repository does not have any commits yet'
         exit 1
