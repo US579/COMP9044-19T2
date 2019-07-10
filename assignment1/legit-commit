@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 
 legitdir='.legit'
 sub_legitdir='.git'
@@ -85,7 +85,7 @@ file_compare()
     filename=".commit_$1"
     dir="$fullpath/$filename"
     #iterate the diractory to find differnt file 
-    for f in `ls ${dir}`
+    for f in `ls ${dir}` 
         do  
             index_file="$fullpath/$indexdir/$f"
             if [ ! -f $index_file ]
@@ -164,6 +164,11 @@ commit()
         # caculate the latest commit number where in resporitory
 
         pre_seq=$((last_num-1))
+        if ( test $pre_seq -eq -1 )
+        then 
+            echo "nothing to commit"
+            exit 1
+        fi
         file_compare $pre_seq
         flag=$?
 

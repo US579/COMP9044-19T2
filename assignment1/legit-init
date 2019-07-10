@@ -17,6 +17,10 @@ init() {
     else
         mkdir "$legitdir"
         mkdir "$legitdir/$sub_legitdir"
+        if !( test -e "$fullpath/$indexdir" )
+        then
+            mkdir "$fullpath/$indexdir"
+        fi
         #initial a HEAD file where it point to the current branch
         echo "master" > $fullpath/HEAD
         echo "Initialized empty legit repository in .legit"
