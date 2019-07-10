@@ -1,38 +1,143 @@
 #!/bin/sh
+#test for add
+
+ans='Initialized empty legit repository in .legit';
 
 
-rm -rf ".legit/"
+echo -en "\e[32mALL TESTS BEGIN\n\e[0m"
+## 1 init
+testout1=$( sh legit-init )
+echo "a1" > a
 
-# your output
-echo -e "\e[36mTEST1 init add status \n\e[0m"
 
-touch a b c d e f
-touch out1.txt
-touch out2.txt
-sh legit-init >> out1.txt
-sh legit-add a b c d e f
-sh legit-commit -m "hello" >>out1.txt
-sh legit-status >>out1.txt
-rm -rf ".legit" &>/dev/null
+## 1 init
+if [ "$ans" = "$testout1" ]; then
+  echo "1-init-pass"
+else
+  echo "1-init-fail"
+fi
 
-# correct output
-2041 legit-init >>out2.txt
-2041 legit-add a b c d e f 
-2041 legit-commit -m "hello" >>out2.txt
-2041 legit-status >>out2.txt
-rm -rf ".legit" &>/dev/null
+# 2 add a   adding it to index and staged
+sh legit-add a
 
-if cmp -s "out1.txt" "out2.txt"
+# 2 add a   adding it to index and staged
+if
+test -e '.legit/staged/a'
+grep -q "a" '.legit/index'
+then
+  echo "2-nomal-add-pass"
+else
+  echo "2-nomal-add-fail"
+fi
+
+
+
+# 3 add a notexist file
+testout3=$( sh legit-add notexist  2>&1 )
+ans3="legit.pl: error: can not open 'notexist'"
+# 3 add a notexist file
+if [ "$ans3" = "$testout3" ]; then
+  echo "3-notexits-add-pass"
+else
+  echo "3-notexits-add-fail"
+fi
+
+# 4 add a same file
+testout4=$(sh legit-commit -m "message0")
+sh legit-add a
+
+# 4 add a same file
+if
+test -e '.legit/staged/a'
+then
+  echo "4-same-add-fail"
+else
+  echo "4-same-add-pass"
+fi
+
+# 5 add a dif file
+echo "a2" >> a
+sh legit-add a
+# 5 add a dif file
+
+if
+test -e '.legit/staged/a'
+then
+  echo "5-dif-add-pass"
+else
+  echo "5-dif-add-fail"
+fi
+
+
+# 6 add a already added file
+sh legit-add a
+# 6 add a already added file
+testout6=$(cat .legit/staged/a)
+working_a=$(cat a 2>&1)
+if
+test -e '.legit/staged/a'
+[ "$testout6" = "$working_a" ]
+then
+  echo "6-already added-pass"
+else
+  echo "6-already added-fail"
+fi
+
+
+# 7 add a changed a already added file
+echo "3a" >> a
+sh legit-add a
+# 7 add a changed a already added file
+testout7=$(cat .legit/staged/a)
+working_a=$(cat a)
+if
+[ "$testout7" = "$working_a" ]
+then
+  echo "7-changed-already-added-pass"
+else
+  echo "7-changed-already-added-fail"
+fi
+
+# 8 add a legit rm file
+testout=$(sh legit-commit -m "message1")
+sh legit-rm a
+testout8=$(sh legit-add a 2>&1 )
+ans8="legit.pl: error: can not open 'a'"
+# 8 add a legit rm file
+if
+[ "$testout8" == "$ans8" ]
+then
+  echo "8-legi-rm-added-pass"
+else
+  echo "8-legit-rm-added-fail"
+fi
+
+
+# 9 add a unix rm file
+testout=$(sh legit-commit -m "message2")
+echo "a_new" > a
+sh legit-add a
+testout=$(sh legit-commit -m "message3")
+rm a
+sh legit-add a
+# 9 add a unix rm file
+if
+grep -q "a" '.legit/del'
+then
+  echo "9-unix-rm-added-pass"
+else
+  echo "9-unix-rm-added-fail"
+fi
+
+
+
+echo ""
+rm -rf .legit
+
+
+if [ $? == 0 ]
 then
 	echo -en "\e[32mALL TESTS PASSED\n\e[0m"
 else
 	echo -e "\e[31mautotest failed\e[0m"
-	echo "\e[31m===================> your output <============================\n\e[0m"
-	cat out1.txt
-	echo "\e[32m===================> expected output <========================\n\e[0m"
-	cat out2.txt
 fi
-
-rm a b c d e f 
-rm out1.txt
-rm out2.txt
