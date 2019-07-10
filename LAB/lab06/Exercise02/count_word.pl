@@ -11,4 +11,9 @@ while ($line = <> ){
 	}
 }
 
-print "$word occurred $hash{$word} times\n"
+if (! exists $hash{$word}){
+	print "$word occurred 0 times\n"
+
+}else{
+	print "$word occurred $hash{$word} times\n"
+}
