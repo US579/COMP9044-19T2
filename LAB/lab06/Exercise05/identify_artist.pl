@@ -21,7 +21,8 @@ foreach $file (glob "lyrics/*.txt") {
     $file =~ s/.*\///;
     $file =~ s/_/ /g;
     foreach $line (@content){
-        @words = split /[^a-z]/i,$line;
+        $line =~ tr /A-Z/a-z/;
+        @words = split /[^a-z]+/i,$line;
         foreach $word (@words){
             $word_times{$file}{$word}++;
             $word_total{$file}++;
@@ -37,7 +38,8 @@ foreach $f (glob "$dir"){
     close F;
     %buff = ();
     foreach $line (@L){
-		@arr1 = split /\W+/i , $line;
+        $line =~ tr/A-Z/a-z/;
+		@arr1 = split /[^a-z]+/, $line;
 		foreach $ww ( @arr1 ){
             foreach $n (@name){
                 $buff{$n}+=log((($word_times{$n}{$ww}||0)+1)/$word_total{$n});
