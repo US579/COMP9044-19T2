@@ -6,7 +6,7 @@ fullpath="$legitdir/$sub_legitdir"
 indexdir="objects"
 
 
-echo -en "\e[37mALL TESTS BEGIN\e[0m"
+echo -en "\e[37mALL TESTS BEGIN\n\e[0m"
 
 #test legit-add
 
@@ -22,7 +22,7 @@ if [ "$std1" = "$out1" ] && [ -d "$legitdir" ]
 then
   echo -en "\e[32minit PASSED\n\e[0m"
 else
-  echo -en "\e[31minit failed\e[0m"
+  echo -en "\e[31minit failed\n\e[0m"
 fi
 
 
@@ -35,7 +35,7 @@ if [ -e "$fullpath/$indexdir/a" ]
 then
   echo -en "\e[32minit PASSED\n\e[0m"
 else
-  echo -en "\e[31minit failed\e[0m"
+  echo -en "\e[31minit failed\n\e[0m"
 fi
 
 # 3 add file that not exists
@@ -46,7 +46,7 @@ if [ "$std2" = "$out2" ]
 then
   echo -en "\e[32madd non-exist PASSED\n\e[0m"
 else
-  echo -en "\e[31madd non-exist failed\e[0m"
+  echo -en "\e[31madd non-exist failed\n\e[0m"
 fi
 
 # add same file
@@ -55,7 +55,7 @@ if (diff "a" "$fullpath/$indexdir/a" > /dev/null )
 then
   echo -en "\e[32madd same file PASSED\n\e[0m"
 else
-  echo -en "\e[31madd same file failed\e[0m"
+  echo -en "\e[31madd same file failed\n\e[0m"
 fi
 
 
@@ -66,7 +66,7 @@ if ! (diff "a" "$fullpath/$indexdir/a" > /dev/null )
 then
   echo -en "\e[32madd same file PASSED(changed)\n\e[0m"
 else
-  echo -en "\e[31madd same file failed(changed)\e[0m"
+  echo -en "\e[31madd same file failed(changed)\n\e[0m"
 fi
 
 # add file with invalid file name
@@ -78,7 +78,7 @@ if [ "$std3" = "$out3" ]
 then
   echo -en "\e[32madd invalid name file  PASSED\n\e[0m"
 else
-  echo -en "\e[31madd invalid name file failed\e[0m"
+  echo -en "\e[31madd invalid name file failed\n\e[0m"
 fi
 
 #  .legit dir is not exit when adding file
@@ -89,7 +89,7 @@ if [ "$std4" = "$out4" ]
 then
   echo -en "\e[32madd with no repo PASSED\n\e[0m"
 else
-  echo -en "\e[31madd  with no repo failed\e[0m"
+  echo -en "\e[31madd  with no repo failed\n\e[0m"
 fi
 sh legit-init >/dev/null
 
