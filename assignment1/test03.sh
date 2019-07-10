@@ -63,15 +63,15 @@ else
   echo -en "\e[31minvalid object failed\n\e[0m"
 fi
 
-# # 4. unknow object
-# std1="legit-show: error: unknown commit 'a'"
-# out1=$(sh legit-show a:0 )
-# if [ "$std1" = "$out1" ]
-# then
-#   echo -en "\e[32munknow object PASSED\n\e[0m"
-# else
-#   echo -en "\e[31munknow object failed\n\e[0m"
-# fi
+# 4. unknow object
+std1="legit-show: error: unknown commit 'a'"
+out1=$(sh legit-show a:0 )
+if [ "$std1" = "$out1" ]
+then
+  echo -en "\e[32munknow object PASSED\n\e[0m"
+else
+  echo -en "\e[31munknow object failed\n\e[0m"
+fi
 
 # 4. file not found
 # std1="legit-show: error: 'c' not found in commit 0"
