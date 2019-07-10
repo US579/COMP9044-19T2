@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 legitdir='.legit'
 sub_legitdir='.git'
 fullpath="$legitdir/$sub_legitdir"
@@ -14,8 +14,8 @@ log()
     then
         echo "legit-log: error: no .legit directory containing legit repository exists"
         exit 1
-
-    elif [ ! -d $fullpath/$indexdir ]
+        
+    elif ! [ "`ls -a $fullpath/$indexdir`" = "" ]
     then
         echo 'legit-log: error: your repository does not have any commits yet'
         exit 1
