@@ -74,12 +74,12 @@ sh legit-commit -m "commit" > /dev/null
 std1="1 commit
 0 commit"
 out1=$(sh legit-log )
-echo $out1
 if [ "$std1" = "$out1" ]
 then
   echo -en "\e[32m has two commit PASSED\n\e[0m"
 else
   echo -en "\e[31mr has two commit failed\n\e[0m"
 fi
+
 echo ""
 rm -rf .legit
