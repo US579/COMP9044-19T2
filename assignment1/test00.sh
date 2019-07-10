@@ -69,17 +69,33 @@ else
   echo -en "\e[31madd same file failed(changed)\e[0m"
 fi
 
+# add file with invalid file name
+
+echo "hello" > _a
+out3=$( sh legit-add _a )
+std3="legit-add: error: invalid filename '_a'"
+if [ "$std3" = "$out3" ]
+then
+  echo -en "\e[32madd invalid name file  PASSED\e[0m"
+else
+  echo -en "\e[31madd invalid name file failed\e[0m"
+fi
+
+#  .legit dir is not exit when adding file
+rm -rf "$legitdir"
+out4=$(sh legit-add a )
+std4="legit-add: error: no $legitdir directory containing legit repository exists"
+if [ "$std4" = "$out4" ]
+then
+  echo -en "\e[32madd with no repo PASSED\e[0m"
+else
+  echo -en "\e[31madd  with no repo failed\e[0m"
+fi
+sh legit-init >/dev/null
 
 
 
 
+rm _a a 
 echo ""
 rm -rf .legit
-
-
-# if [ $? == 0 ]
-# then
-# 	echo -en "\e[32mALL TESTS PASSED\n\e[0m"
-# else
-# 	echo -e "\e[31mautotest failed\e[0m"
-# fi
