@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #written by Wanze Liu , z5137189
 
 legitdir='.legit'
@@ -17,7 +17,7 @@ add()
         echo "Maybe you wanted to say 'git add .'?"
         exit 1
     fi
-    if test -e $legitdir
+    if test -e  $legitdir
     then
         if !( test -e "$fullpath/$indexdir" )
         then
@@ -26,22 +26,26 @@ add()
         # traverse the file that need to add 
         for file in $@
         do  
-            # check the whether the name is valid
-            if  ( (echo "$file" | egrep -v '[_a-zA-Z0-9\.\-]') || (echo "$file" | egrep -v '^[a-zA-Z0-9]') ) >/dev/null
+            if ( (echo "$file" | egrep -v '[_a-zA-Z0-9\.\-]') || (echo "$file" | egrep -v '^[a-zA-Z0-9]') ) >/dev/null
             then
-            echo "legit-add: error: invalid filename '$file'"
-            exit 1
+                echo "legit-add: error: invalid filename '$file'"
+                exit 1
             fi
             #if file not exist in the current directory
-            if ! ( test -e "$file" )
+            if !( test -e "$file" )
             then
                 #if file exist in the object directory and not exist in the current directory,remove the file from objects directory
                 if (test -e "$fullpath/$indexdir/$file")
                 then
-                    rm "$fullpath/$indexdir/$file"
+                    rm $fullpath/$indexdir/$file
+                    exit 1
                 fi
                 echo "legit-add: error: can not open '$file'"
-                exit 1
+                if ( test -e "$fullpath/$indexdir/$file")
+                then 
+                    rm "$fullpath/$indexdir/$file"
+                fi
+                continue
             else 
                 cp "$file" "$fullpath/$indexdir"
             fi
@@ -53,7 +57,6 @@ add()
 }
 
 add $@ 
-
 
 
 
