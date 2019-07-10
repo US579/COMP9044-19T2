@@ -16,9 +16,9 @@ out1=$( sh legit-init )
 ## 1 init 
 
 if [ "$std" = "$out1" ]; then
-  echo "\e[32minit PASSED\n\e[0m"
+  echo -en "\e[32minit PASSED\n\e[0m"
 else
-  echo "\e[31minit failed\n\e[0m"
+  echo -en "\e[31minit failed\n\e[0m"
 fi
 
 
