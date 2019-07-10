@@ -39,7 +39,7 @@ foreach $f (glob "$dir"){
     %buff = ();
     foreach $line (@L){
         $line =~ tr/A-Z/a-z/;
-		@arr1 = split /[^a-z]+/, $line;
+		@arr1 = split /[^a-z]+/i, $line;
 		foreach $ww ( @arr1 ){
             foreach $n (@name){
                 $buff{$n}+=log((($word_times{$n}{$ww}||0)+1)/$word_total{$n});
