@@ -1,8 +1,5 @@
 #!/usr/bin/perl -w
 
-
-
-
 if ($ARGV[0] eq '-d'){
     shift(@ARGV);
     $flag = 1;
@@ -41,8 +38,6 @@ foreach $f (glob "$dir"){
     }
 
 
-
-
 sub log_prob{
 	my ($word) = @_;
 	foreach $file (glob "lyrics/*.txt") {
@@ -51,7 +46,6 @@ sub log_prob{
         close F1;
         $word_times = 0;
         $all_len = 0;
-
 		foreach $line (@content){
             $linecp = $line;
             $wc = ($line =~ s/\b$word\b//ig );
@@ -64,7 +58,6 @@ sub log_prob{
 		$file =~ s/.*\///;
 	    $file =~ s/_/ /g;
 	    $dic{$file}=$var;
-	    close F1;
 	}
 	return %dic;
 }
