@@ -76,9 +76,9 @@ std1="1 commit
 out1=$(sh legit-log )
 if [ "$std1" = "$out1" ]
 then
-  echo -en "\e[32m has two commit PASSED\n\e[0m"
+  echo -en "\e[32m have two commit PASSED\n\e[0m"
 else
-  echo -en "\e[31mr has two commit failed\n\e[0m"
+  echo -en "\e[31m have two commit failed\n\e[0m"
 fi
 
 echo ""
