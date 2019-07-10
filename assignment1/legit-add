@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 #written by Wanze Liu , z5137189
 
 legitdir='.legit'
@@ -31,8 +31,9 @@ add()
             then
             echo "legit-add: error: invalid filename '$file'"
             exit 1
+            fi
             #if file not exist in the current directory
-            elsif !( test -e "$file" )
+            if ! ( test -e "$file" )
             then
                 #if file exist in the object directory and not exist in the current directory,remove the file from objects directory
                 if (test -e "$fullpath/$indexdir/$file")
