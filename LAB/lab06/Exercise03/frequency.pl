@@ -19,15 +19,22 @@ foreach $file (glob "lyrics/*.txt") {
 		}
 	}
 	$all_len=@count;
+    if ( exists $hash{lc $word}){
 	$word_times=$hash{$word};
+    }else{
+    $word_times = 0;
+    }   
 	$var=$word_times / $all_len; 
 	$file =~ s/\.txt//;
 	$file =~ s/.*\///;
+    $file =~ s/_/ /g;
 	$result=sprintf( "%4d/%6d = %.9f %s\n",$word_times,$all_len,$var,$file);
 	print "$result";
     close F;
     #the way to clean the hash table 
     %hash=();
+    @count=();
+
 }
 
 
