@@ -71,9 +71,9 @@ echo "world" >> a
 out1=$( sh legit-rm a )
 if [ "$std1" = "$out1" ]
 then
-  echo -en "\e[32mfile in index dir same as working dir but has not commit PASSED\n\e[0m"
+  echo -en "\e[32mfile in index dir same as working dir differs from last commit PASSED\n\e[0m"
 else
-  echo -en "\e[31mfile in index dir same as working dir but has not commit failed\n\e[0m"
+  echo -en "\e[31mfile in index dir same as working dir differs from last commit failed\n\e[0m"
 fi
 rm -rf $legitdir
 
