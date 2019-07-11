@@ -51,7 +51,13 @@ fi
 # creat file but not add 
 
 echo "hello" > b
-
+sh legit-commit -m "commit" > /dev/null
+if [ -e "$fullpath/.commit_0/a" ]
+then
+    echo -en "\e[32mcommit success\n\e[0m"
+else
+    echo -en "\e[31mcommit failed\n\e[0m"
+fi
 
 
 

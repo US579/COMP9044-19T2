@@ -136,9 +136,7 @@ else
   echo -en "\e[31moverwritten check failed\n\e[0m"
 fi
 rm b a
-
-
 rm .a
-
+echo ""
 rm -rf .legit
 echo -en "\e[35mTESTS FINISHED\n\e[0m"

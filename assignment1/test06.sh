@@ -164,9 +164,9 @@ then
 else
   echo -en "\e[31muntracked failed\n\e[0m"
 fi
+
+
 rm a b 
 echo ""
 rm -rf .legit
-
-
 echo -en "\e[35mTESTS FINISHED\n\e[0m"
