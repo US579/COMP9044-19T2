@@ -4,7 +4,7 @@
 $legitdir='.legit';
 $sub_legitdir='.git';
 $fullpath="$legitdir/$sub_legitdir";
-$indexdir="objects";
+
 
 use File::Basename;
 
