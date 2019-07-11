@@ -1,14 +1,13 @@
 #!/usr/bin/perl -w
 #written by Wanze Liu z5137189
 
-
-
-
 $legitdir='.legit';
 $sub_legitdir='.git';
 $fullpath="$legitdir/$sub_legitdir";
-# $indexdir="objects";
+$indexdir="objects";
+
 use File::Basename;
+
 # three options
 #	1. return all commits from the current branch 
 #	2. delete specified branch 
@@ -53,10 +52,7 @@ sub is_exist{
 		exit 1;
 	}
 }
-# sub check_legit {
-# 	&is_exist;
-# 	$seq= &commitseq;
-# }
+
 # three options
 #	1. list all branch
 #	2. delete specified branch 
