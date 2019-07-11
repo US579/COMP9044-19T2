@@ -48,7 +48,14 @@ else
     echo -en "\e[31mcommit failed\n\e[0m"
 fi
 
-# 
+# creat file but not add 
+
+echo "hello" > b
+
+
+
+
+rm a b 
 
 # # 2. the branch switch to is not exist
 # std1="legit-checkout: error: unknown branch 'new'"
