@@ -131,7 +131,7 @@ status()
         echo "legit-status: error: no .legit directory containing legit repository exists"
         exit 1
     fi
-    num=`ls $fullpath/* | grep "$fullpath/Branch.*"`
+    num=`ls $fullpath/* | grep "$fullpath/Branch.*"` > /dev/null
     echo $num
     if [ "$num" = "" ]
     then 
