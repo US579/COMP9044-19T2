@@ -132,8 +132,8 @@ commit()
         echo "legit-commit: error: no .legit directory containing legit repository exists"
         exit 1
     fi
-
-    # [-a] option : update all the file from current directory to the object directory
+    # [-a] option Tell the command to automatically stage files that have been modified and deleted, 
+    # but new files you have not told legit about are not affected.so only iterator the index dir 
     buff=0
     if ((test $# -ge 3) && (echo "$1" | egrep "\-a") && (echo "$2" | egrep "\-m")) >/dev/null 
        then
@@ -143,7 +143,7 @@ commit()
                done
             buff=1 
     fi
-
+    # intial the fisrt commit 
     if ( ( test $# -ge 2 ) && ( echo "$1" | egrep "\-m" ) ||  ( buff=1)) >/dev/null
     then
         commitseq 
@@ -162,7 +162,6 @@ commit()
         fi
 
         # caculate the latest commit number where in resporitory
-
         pre_seq=$((last_num-1))
         if ( test $pre_seq -eq -1 )
         then 
@@ -172,8 +171,7 @@ commit()
         file_compare $pre_seq
         flag=$?
 
-        # commit with the latest number 
-
+        # commit with the latest number
         if ( test  $flag -eq 1 )
         then
             mkdir $commitdir
