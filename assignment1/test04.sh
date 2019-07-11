@@ -30,21 +30,6 @@ else
 fi
 
 
-# # 2. file not found
-# echo "hello" > a
-# sh legit-add a
-# sh legit-commit -m "commit" > /dev/null
-# std1="legit-show: error: 'c' not found in commit 0"
-# out1=$(sh legit-show 0:c )
-# if [ "$std1" = "$out1" ]
-# then
-#   echo -en "\e[32file not found PASSED\n\e[0m"
-# else
-#   echo -en "\e[31mfile not found failed\n\e[0m"
-# fi
-# rm a
-
-
 # 2. test for -a flag
 rm -rf $legitdir
 sh legit-init > /dev/null
@@ -61,6 +46,17 @@ else
 fi
 rm a
 
+# 3. test for error
+rm -rf $legitdir
+sh legit-init > /dev/null
+std1='nothing to commit';
+out1=$( sh legit-commit -m "commit" )
+if [ "$std1" = "$out1" ]
+then
+  echo -en "\e[32mnothing to commit PASSED\n\e[0m"
+else
+  echo -en "\e[31mnothing to commit failed\n\e[0m"
+fi
 
 
 echo ""
