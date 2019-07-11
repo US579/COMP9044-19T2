@@ -63,7 +63,7 @@ sub branch_inf_reader{
 	return $current_branch;
 }
 
-# check wether the branch is exist or alread in that branch
+# check wether the branch is exist or already in that branch
 sub checkfile{
 	my ($file) = @_; 
 	if ( ! -e "$fullpath/Branch.$file" ){
@@ -135,7 +135,7 @@ sub main{
     print F "$branchname";
     close F;
 
-    #这是对index directory的操作
+    # modify index directory
     # delete all the file in index that same as the last commit
     my @indexdir = glob("$fullpath/$indexdir/*");
     my @indexfile_lis = ();
@@ -148,7 +148,7 @@ sub main{
     	}
     }
 
-    #这是对current last commit directory的操作
+    # modify current last commit directory
 	my @buff = glob("$fullpath/.commit_$cur/*");
 	foreach $f_cur ( @buff ){
 		# current directory files
@@ -167,7 +167,7 @@ sub main{
 	}
 
 
-	#这是对即将装换的branch的last commit directory的操作
+	# modify last commit directory
 	# refresh from the last commit directory of branch that u want ot switch to
 	my @buff1 = glob("$fullpath/.commit_$new/*");
     foreach $f_new ( @buff1 ){
@@ -194,7 +194,6 @@ sub main{
     }
 
     print "Switched to branch '$branchname'\n"; 
-
 }
 
 
