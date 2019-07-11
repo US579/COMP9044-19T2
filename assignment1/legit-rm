@@ -155,7 +155,7 @@ rm_file()
     # $1 : cached flag 
     # $2 : file name 
 
-    # if cached flag == 0 , no cached needed 
+    # if cached flag == 0 , no cached(file in current dir)needed 
     if ( test $1 -eq 0 )
     then
         # remove file

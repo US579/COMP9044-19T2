@@ -93,9 +93,7 @@ status_show()
     work_index=`file_compare 1 $1 $pre_seq`
     work_last=`file_compare 2 $1 $pre_seq`
     index_last=`file_compare 3 $1 $pre_seq`
-    # echo $work_index
-    # echo $index_last
-    # echo $work_last
+
 	file=$1
 
 	if !( test -e $file ) && ( test $index_last -eq 0)
@@ -133,7 +131,13 @@ status()
         echo "legit-status: error: no .legit directory containing legit repository exists"
         exit 1
     fi
-
+    num=`ls $fullpath/* | grep "$fullpath/Branch.*"`
+    echo $num
+    if [ "$num" = "" ]
+    then 
+        echo "legit-status: error: your repository does not have any commits yet"
+        exit 1
+    fi
 	commitseq_chekout
     pre_seq="$?"
     
@@ -160,7 +164,6 @@ status()
     do
         status_show $file
     done
-
 
 }
 
