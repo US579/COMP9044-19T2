@@ -7,27 +7,6 @@ sub_legitdir='.git'
 fullpath="$legitdir/$sub_legitdir"
 indexdir="objects"
 
-
-# Sub-function to generate the instructions
-# output the correct instructions when the user input wrong parameter
-
-error()
-{
-    echo "Usage: legit.pl <command> [<args>]";
-    echo "These are the legit commands:";
-    echo "   init       Create an empty legit repository";
-    echo "   add        Add file contents to the index";
-    echo "   commit     Record changes to the repository";
-    echo "   log        Show commit log";
-    echo "   show       Show file at particular state";
-    echo "   rm         Remove files from the current directory and from the index";
-    echo "   status     Show the status of files in the current directory, index, and repository";
-    echo "   branch     list, create or delete a branch";
-    echo "   checkout   Switch branches or restore current directory files";
-    echo "   merge      Join two development histories together";
-    exit 1;
-}
-
 # Subset 0
 # function 1 inti
 # initial the implicit folder ".legit/.git"

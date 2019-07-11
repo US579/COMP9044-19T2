@@ -4,7 +4,7 @@ Date     | Start | Stop  | Activity   |            Comments             |
 25/06/19 | 20:30 | 21:10 | Reading    | Read the specification          |
 25/06/19 | 21:10 | 23:10 | Coding     | implement init and add function |
 25/06/19 | 23:17 | 21:19 | Coding     | implement commit function       |
-18/06/19 | 21:00 | 22:00 | Debugging  | Bug found commit - empty message|
+26/06/19 | 21:00 | 22:00 | Debugging  | Bug found commit - empty message|
 19/06/19 | 08:00 | 12:00 | Coding     | implement log and show function |
 19/06/19 | 20:00 | 22:00 | Debugging  | Bug found show - no commit      |
 21/06/19 | 13:00 | 15:00 | Coding     | add -a to commit function       |

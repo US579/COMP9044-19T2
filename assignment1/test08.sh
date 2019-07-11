@@ -85,7 +85,6 @@ rm -rf $legitdir
 
 # 4. when switch the branch , the new file added in the current branch will not exist in the 
 #    branch we switch to 
-std1="Already on 'new'"
 sh legit-init > /dev/null
 touch a 
 sh legit-add a
