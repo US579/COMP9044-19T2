@@ -58,7 +58,7 @@ rm -rf $legitdir
 sh legit-init > /dev/null
 touch a 
 sh legit-add a
-sh legit-commit -m "commit"
+sh legit-commit -m "commit" > /dev/null
 perl legit-branch new 
 if [ -e "$fullpath/Branch.new" ]
 then
@@ -84,10 +84,10 @@ rm -rf .legit
 sh legit-init > /dev/null
 touch a 
 sh legit-add a 
-sh legit-commit -m "commit"
+sh legit-commit -m "commit" >/dev/null
 perl legit-branch new
 perl legit-branch new1
-perl legit-branch new2
+perl legit-branch new2 
 perl legit-branch > .a
 out1=`cat .a`
 std1="master
