@@ -136,8 +136,10 @@ rm -rf $legitdir
 # 5. added to index
 sh legit-init > /dev/null
 std1='a - added to index';
-touch a
+touch a b
 sh legit-add a
+sh legit-commit -m "commit"
+sh legit-add b
 out1=$( sh legit-status )
 out=$(echo $out1 | sed "s/.*\(a \- added to index\).*/\1/")
 if [ "$std1" = "$out" ]
@@ -146,9 +148,22 @@ then
 else
   echo -en "\e[31madded to index failed\n\e[0m"
 fi
-# rm -rf $legitdir
+rm -rf $legitdir
 
-
+# 5. untracked
+sh legit-init > /dev/null
+std1='a - untracked';
+touch a b
+sh legit-add b
+sh legit-commit -m "commit"
+out1=$( sh legit-status )
+out=$(echo $out1 | sed "s/.*\(a \- untracked\).*/\1/")
+if [ "$std1" = "$out" ]
+then
+  echo -en "\e[32muntracked PASSED\n\e[0m"
+else
+  echo -en "\e[31muntracked failed\n\e[0m"
+fi
 
 
 
