@@ -126,6 +126,7 @@ status_show()
 
 status()
 {
+    # condition check
     if [ ! -d $fullpath ]
     then 
         echo "legit-status: error: no .legit directory containing legit repository exists"
