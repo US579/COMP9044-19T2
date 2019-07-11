@@ -1,4 +1,5 @@
 #!/bin/sh
+#written by Wanze Liu z5137189
 
 legitdir='.legit'
 sub_legitdir='.git'

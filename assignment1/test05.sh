@@ -1,4 +1,5 @@
 #!/bin/sh
+#written by Wanze Liu z5137189
 
 legitdir='.legit'
 sub_legitdir='.git'
@@ -81,12 +82,53 @@ rm -rf $legitdir
 
 
 # 5. test for [--cached] flag
-
-
+# only delete the file in the index dir
+std1="legit-rm: error: 'a' in repository is different to working file"
+sh legit-init > /dev/null
+echo "hello" > a
+sh legit-add a 
+sh legit-commit -m "commit" > /dev/null
+out1=$( sh legit-rm --cached a )
+if [ -e a ]
+then
+  echo -en "\e[32mtest for [--cached] flag PASSED\n\e[0m"
+else
+  echo -en "\e[31mtest for [--cached] flag failed\n\e[0m"
+fi
+rm -rf $legitdir
 
 
 # 6. test for [--force] flag
+# if [--force] flag specified , it will ignore all warning
+sh legit-init > /dev/null
+echo "hello" > a
+sh legit-add a 
+sh legit-commit -m "commit" > /dev/null
+echo "world" >> a
+out1=$( sh legit-rm --force a )
+if [ "$out1" = "" ]
+then
+  echo -en "\e[32mtest for [--force] flag PASSED\n\e[0m"
+else
+  echo -en "\e[31mtest for [--force] flag failed\n\e[0m"
+fi
+rm -rf $legitdir
 
+# 6. test for [--force] flag
+# if [--force] flag specified , it will ignore all warning
+std1="legit-rm: error: 'a' has changes staged in the index"
+sh legit-init > /dev/null
+echo "hello" > a
+sh legit-add a 
+out1=$( sh legit-rm a )
+out1=$( sh legit-rm --force a )
+if [ "$out1" = "" ]
+then
+  echo -en "\e[32mtest for [--force] flag PASSED\n\e[0m"
+else
+  echo -en "\e[31mtest for [--force] flag failed\n\e[0m"
+fi
+rm -rf $legitdir
 
 # 7. if no parameter
 std1="usage: legit-rm [--force] [--cached] <filenames>"

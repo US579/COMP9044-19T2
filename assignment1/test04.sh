@@ -1,4 +1,7 @@
 #!/bin/sh
+#written by Wanze Liu z5137189
+Hello World.
+Hello World.
 
 legitdir='.legit'
 sub_legitdir='.git'
