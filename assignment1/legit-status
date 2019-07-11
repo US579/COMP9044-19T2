@@ -8,23 +8,6 @@ fullpath="$legitdir/$sub_legitdir"
 indexdir="objects"
 
 
-#function : return the latest commit number 
-# commitseq()
-# {
-
-#     count=0
-#     while ( test $count -ge 0 )
-#     do
-#         if [ -d "$fullpath/.commit_$count" ]
-#         then
-#             count=$(( count+1 ))
-#         else
-#             return $count
-#         fi
-#     done
-# }
-
-
 #function : return the latest commit number in that branch
 commitseq_chekout()
 {
@@ -35,7 +18,6 @@ commitseq_chekout()
 }
 
 
-commitseq_chekout
 #function : compare the two file 
 # three options
 file_compare()
@@ -146,6 +128,12 @@ status_show()
 
 status()
 {
+    if [ ! -d $fullpath ]
+    then 
+        echo "legit-status: error: no .legit directory containing legit repository exists"
+        exit 1
+    fi
+
 	commitseq_chekout
     pre_seq="$?"
     

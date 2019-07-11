@@ -14,13 +14,13 @@ fi
 
 echo -en "\e[35mALL TESTS BEGIN\n\e[0m"
 
-#test legit-status
+# Test for legit-status
 
 ## 1 init repo
 std1='Initialized empty legit repository in .legit';
 out1=$(sh legit-init )
 
-## 1 init 
+# 1 init 
 if [ "$std1" = "$out1" ] && [ -d "$legitdir" ]
 then
   echo -en "\e[32minit PASSED\n\e[0m"
@@ -29,7 +29,21 @@ else
 fi
 
 
-
+# 2. file changed, different changes staged for commit
+std1='a - file changed, different changes staged for commit';
+echo "hello" > a
+sh legit-add a 
+sh legit-commit -m 'commit' > /dev/null
+echo "world" >> a
+sh legit-add a
+$out1=$( sh legit-status )
+$out = `echo $out1 | grep "a - .*"`
+if [ "$std1" = "$out" ]
+then
+  echo -en "\e[32minit PASSED\n\e[0m"
+else
+  echo -en "\e[31minit failed\n\e[0m"
+fi
 
 
 
@@ -150,6 +164,6 @@ fi
 
 
 echo ""
-rm -rf .legit
+# rm -rf .legit
 
 
