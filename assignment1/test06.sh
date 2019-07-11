@@ -142,7 +142,6 @@ sh legit-commit -m "commit" > /dev/null
 sh legit-add b
 out1=$( sh legit-status )
 out=$(echo $out1 | sed "s/.*\(b \- added to index\).*/\1/")
-echo $out
 if [ "$std1" = "$out" ]
 then
   echo -en "\e[32madded to index PASSED\n\e[0m"
