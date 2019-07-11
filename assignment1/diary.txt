@@ -4,14 +4,25 @@ Date     | Start | Stop  | Activity   |            Comments             |
 25/06/19 | 20:30 | 21:10 | Reading    | Read the specification          |
 25/06/19 | 21:10 | 23:10 | Coding     | implement init and add function |
 25/06/19 | 23:17 | 21:19 | Coding     | implement commit function       |
-26/06/19 | 21:00 | 22:00 | Debugging  | Bug found commit - empty message|
-19/06/19 | 08:00 | 12:00 | Coding     | implement log and show function |
-19/06/19 | 20:00 | 22:00 | Debugging  | Bug found show - no commit      |
-21/06/19 | 13:00 | 15:00 | Coding     | add -a to commit function       |
-21/06/19 | 15:00 | 16:00 | Coding     | modified add - satisfy commit -a|
-29/06/19 | 09:30 | 12:30 | Coding     | implement rm function           |
-29/06/19 | 09:30 | 23:00 | Coding     | implement status function       |
-29/06/19 | 15:56 | 15:00 | Coding     | implement branch function       |
+26/06/19 | 08:00 | 10:00 | Debugging  | Bug found commit - no commit msg|
+27/06/19 | 20:00 | 00:00 | Coding     | implement log and show function |
+28/06/19 | 12:00 | 14:00 | Debugging  | Bug found log - Syntax error    |
+28/06/19 | 22:00 | 00:00 | Coding     | add -a to commit function       |
+29/06/19 | 08:00 | 10:00 | Coding     | add arguement limition          |
+29/06/19 | 15:00 | 18:00 | Coding     | implement legit-rm function     |
+29/06/19 | 22:00 | 23:00 | Debugging  | Bug found log - index is diff   |
+30/06/19 | 09:30 | 12:30 | Coding     | implement legit-status          |
+01/07/19 | 08:00 | 09:00 | Debugging  | Bug found clash syntax error    |
+02/07/19 | 09:30 | 23:00 | Coding     | implement branch function       |
+02/07/19 | 23:00 | 02:00 | Debugging  | Bug found branch                |
+03/07/19 | 12:56 | 23:00 | Coding     | implement checkout function     |
+04/07/19 | 12:56 | 23:00 | Coding     | implement checkout function     |
+05/07/19 | 23:00 | 01:00 | Debugging  | Bug found uninital value        |
+06/07/19 | 14:00 | 17:00 | Debugging  | missing file not present        |
+07/07/19 | 22:00 | 01:00 | Debugging  | fix inconssistency              |
+09/07/19 | 15:00 | 23:00 | Debugging  | test legit-checkout             |
+11/07/19 | 08:00 | 23:00 | Coding     | write test script               |
+12/07/19 | 07:00 | 08:23 | Coding     | write test script               |
 -------------------------------------------------------------------------
 Written by Wanze Liu, z5137189
 -------------------------------------------------------------------------
