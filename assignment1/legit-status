@@ -133,7 +133,6 @@ status()
         exit 1
     fi
     num=`ls $fullpath/* | grep "$fullpath/Branch.*"` > /dev/null
-    echo $num
     if [ "$num" = "" ]
     then 
         echo "legit-status: error: your repository does not have any commits yet"
