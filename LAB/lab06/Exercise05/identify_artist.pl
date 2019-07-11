@@ -9,8 +9,6 @@ else{
 }
 
 
-$dir = shift @ARGV;
-$dir =~ s/\?/\*/g;
 
 
 foreach $file (glob "lyrics/*.txt") {
@@ -33,7 +31,7 @@ foreach $file (glob "lyrics/*.txt") {
 
 
 @name = keys %word_total;
-foreach $f (glob "$dir"){
+foreach my $f (@ARGV){
 	open F , "<","$f" or die "can not open";
     @L=<F>;
     close F;
