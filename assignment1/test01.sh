@@ -112,3 +112,4 @@ rm -rf .legit
 # echo -en "\e[31mFAILED $cut TESTS[0m"
 
 
+echo -en "\e[35mTESTS FINISHED\n\e[0m"

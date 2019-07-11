@@ -84,3 +84,4 @@ fi
 
 echo ""
 rm -rf .legit
+echo -en "\e[35mTESTS FINISHED\n\e[0m"
