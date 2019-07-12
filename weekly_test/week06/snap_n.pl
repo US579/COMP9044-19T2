@@ -10,7 +10,7 @@ while(<>){
 		if ( $dic{$w} == $arg ){
 			$word = $w;
 			chomp($word);
-			print "Snap: $word $word\n";
+			print "Snap: $word\n";
 			exit 0;
 		}
 	}
