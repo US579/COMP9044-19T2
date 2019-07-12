@@ -17,11 +17,27 @@ foreach $ll (@line){
 	$len_dic{$ll}=length($ll);
 }
 
+# @kk = keys %num;
+# foreach (@kk){
+# 	print "$_ == > $num{$_}"
+# }
 
 
 
 @lis = sort compare_len @line;
 
-foreach (@lis){
-	print "$_";
+
+@kk = ();
+$leng = length($lis[0]);
+foreach $l (@lis){
+	if ($len_dic{$l} == $leng){
+		push @kk,$l;
+	}else{
+		foreach (sort @kk){
+			print "$_";
+		}
+		@kk = ();
+		$leng=length($l);
+		push @kk, $l;
+	}
 }
