@@ -2,14 +2,16 @@
 
 
 
-
+@index = ();
 foreach $arg ( @ARGV ){
-	$dic{$arg}=1; 
+	if ( exists $dic{$arg}){
+		next;
+	}
+	$dic{$arg}=1;
+	push @index , $arg;
 }
 
-@uniq = keys %dic;
-foreach (@uniq){
-	print "$_ ";
+foreach (@index){
+		print "$_ ";
 }
 print "\n";
-
