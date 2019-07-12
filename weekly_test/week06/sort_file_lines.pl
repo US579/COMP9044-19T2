@@ -6,22 +6,13 @@ open F , "<" ,"$file" or die "can not open!\n";
 @line=<F>;
 close F;
 
-
-
 sub compare_len {
     return $len_dic{$a} <=> $len_dic{$b};
 }
 
-
 foreach $ll (@line){
 	$len_dic{$ll}=length($ll);
 }
-
-# @kk = keys %num;
-# foreach (@kk){
-# 	print "$_ == > $num{$_}"
-# }
-
 
 
 @lis = sort compare_len @line;
@@ -41,3 +32,4 @@ foreach $l (@lis){
 		push @kk, $l;
 	}
 }
+print @kk;
