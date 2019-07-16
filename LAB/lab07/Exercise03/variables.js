@@ -5,19 +5,20 @@
 
 function doubleIfEven(n) {
     x = n;
-    if (even(x)) return double(x);
+    if (even(x)){
+        return double(x);
+    }
     return x;
 }
 
 function even(a) {
     x = a;
     if (x%2 == 0) {
-        x = true;
+        return true;
     }
     else {
-        x = false;
+        return false;
     }
-    return x;
 }
 
 function double(a) {
