@@ -1,7 +1,6 @@
 function makeTeamList(teamData, namesData, teamsData) {
     // Take it step by step.
     const coachname = teamData['team']['coach'];
-    console.log(coachname);
     const teamid = teamData['team']['id'];
     var Pid = [];
   
@@ -51,7 +50,4 @@ if (teamJson === undefined || namesJson === undefined || teamsJson === undefined
 const team  = require(`./${teamJson}`);
 const names  = require(`./${namesJson}`);
 const teams  = require(`./${teamsJson}`);
-console.log(team);
-console.log(names);
-console.log(teams);
 console.log(makeTeamList(team, names.names, teams.teams));
