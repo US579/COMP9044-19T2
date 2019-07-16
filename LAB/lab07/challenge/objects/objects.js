@@ -44,7 +44,7 @@ function Person(name, age) {
 
 // write me
 Person.prototype.buyDrink = function(drink) {
-  if (!this.canSpend(drink.cost) && !this.canDrink){
+  if (!this.canSpend(drink.cost) && this.canDrink){
       return;
   }
   if ((drink.alcohol && this.canDrink || drink.alcohol === false )){
