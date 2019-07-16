@@ -44,16 +44,21 @@ function Person(name, age) {
 
 // write me
 Person.prototype.buyDrink = function(drink) {
-  if (!this.canSpend(drink.cost) && this.canDrink){
+  // if (!this.canDrink()){
+  //   return;
+  // }
+  if (!this.canSpend(drink.cost)){
       return;
   }
-  if ((drink.alcohol && this.canDrink || drink.alcohol === false )){
+  if ( drink.alcohol === true && this.canDrink() ||  drink.alcohol === false ){
     this.tab+=drink.cost;
     if (drink.name in this.history){
       this.history[drink.name]['count']+=1;
       this.history[drink.name]['total']+=drink.cost;
       return;
     }
+  }else{
+    return;
   }
   const result = { name:drink.name,
                    count:1,
