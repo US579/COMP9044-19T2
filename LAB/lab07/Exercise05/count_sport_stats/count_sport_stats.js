@@ -1,7 +1,6 @@
 function countStats(data) {
 	var result = {matches:0,tries:0};
 	for(v of data){
-		console.log(v);
 		result['matches'] += parseInt(v['matches']);
 		result['tries'] += parseInt(v['tries']);
 	}
