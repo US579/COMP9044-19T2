@@ -8,7 +8,7 @@ while ($line = <>){
 		}
 	}
 	if ($#lis == -1 ){
-		exit 1;
+		next;
 	}
 
 	my $num = (sort {$b <=> $a} @lis)[0];
@@ -16,6 +16,7 @@ while ($line = <>){
 	$dic{$line} = $num;
 	push @compare , $num;
 	@di = keys %dic;
+	# print @compare;
 	# foreach $v (@di){
 	# 	print "$dic{$v} ==> $v";
 	# }
@@ -24,8 +25,10 @@ while ($line = <>){
 }
 
 my $mx = (sort {$b <=> $a} @compare)[0];
+# print $mx;
 @di = keys %dic;
 foreach $w (@di){
+	# print $w;
 	if ( $dic{$w} eq $mx ){
 		print $w;
 	}
