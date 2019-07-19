@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 while ($line = <>){
+	push @order, $line;
 	@array = split / /, $line;
 	foreach $n (@array){
 		if ( $n =~ /(\-?\d*\.?\d+)/){
@@ -29,6 +30,13 @@ my $mx = (sort {$b <=> $a} @compare)[0];
 @di = keys %dic;
 foreach $w (@di){
 	if ( $dic{$w} eq $mx ){
-		print $w;
+		push @result,$w;
 	}
 }
+
+foreach $s (@order){
+	if ( grep /$s/ ,@result ) {
+		print $s;
+	}
+}
+
