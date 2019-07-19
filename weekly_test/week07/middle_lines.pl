@@ -4,6 +4,9 @@ $file = $ARGV[0];
 open F,"<",$file or die "can not open!";
 @array=<F>;
 close F;
+if ( $#array eq -1){
+	exit 1;
+}
 $len = $#array+1;
 if ($len % 2 == 0){
 	$index = $len/2;
