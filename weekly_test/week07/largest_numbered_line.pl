@@ -18,10 +18,10 @@ while ($line = <>){
 	}
 	$dic{$line} = $num;
 	push @compare , $num;
-	@di = keys %dic;
-	foreach $v (@di){
-		print "$dic{$v} ==> $v";
-	}
+	# @di = keys %dic;
+	# foreach $v (@di){
+	# 	print "$dic{$v} ==> $v";
+	# }
 	@lis = ();
 }
 
