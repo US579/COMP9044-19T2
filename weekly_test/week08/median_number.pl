@@ -1,5 +1,6 @@
-#!/usr/bin/perl
-use Math::Round;
+#!/usr/bin/perl -w
+
+
 @array=();
 foreach my $x (@ARGV) {
 	push @array ,$x;
