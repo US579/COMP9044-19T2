@@ -11,5 +11,6 @@ do
 	if diff "$file" "$dir2" > /dev/null 2>&1 
 	then
 		echo "$file" | sed "s/.*\///"
+		#basename $file
 	fi
 done
