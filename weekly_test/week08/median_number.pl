@@ -10,7 +10,3 @@ $size = $size/2;
 @array=sort(@array);
 $size -= 0.5;
 print "@array[$size]\n";
-
-# foreach my $num (@array){
-# 	print $num;
-# }
