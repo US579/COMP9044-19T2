@@ -10,7 +10,7 @@ for file in "$dir1"/*
 do
 	if diff "$file" "$dir2" > /dev/null 2>&1 
 	then
-		basename "$file"
+		echo "$file" | sed "s/.*\///"
 	fi
 done
 
