@@ -39,7 +39,6 @@ export default function runApp() {
                 child.push(node);
             }
         }
-        alert(child.length);
         for (let i =0 ; i < child.length;++i){
             output.removeChild(child[i]);
         }
