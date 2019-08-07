@@ -2,10 +2,9 @@
    'use strict';
    // write your code here
    var counterwindow = document.getElementById("output");
-   var num = 0;
-   setInterval(function (){
-      num += 1;
-      counterwindow.innerHTML = num;
+   setInterval(()=>{
+      const date = new Date();
+      counterwindow.innerHTML = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }, 1000);
 
 }());

@@ -16,6 +16,7 @@ function run(){
     }
 }
 
+
 function createPage(os){
     var dic = {
         "tab-1": "Saturn",
@@ -32,7 +33,6 @@ function createPage(os){
         document.getElementById(`tab-${i}`).classList.remove("active");
     }
     document.getElementById(os.target.id).classList.add("active");
-    
 }
 
 function createsubPage(name,text) {

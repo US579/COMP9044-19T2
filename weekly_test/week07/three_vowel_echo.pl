@@ -11,7 +11,6 @@ foreach my $x (@ARGV) {
 			if ( $c eq 0){
 				$cout++;
 				if ($cout eq 3){
-					print "$org ";
 					last;
 				}
 

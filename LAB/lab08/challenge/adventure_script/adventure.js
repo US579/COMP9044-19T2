@@ -35,12 +35,19 @@
            image.style.left = cur_pos+ 80 + 'px';
            image.style.bottom = 100 + 'px';
            document.body.appendChild(image);
+           setInterval(function () {
+               const fb = document.getElementById('fb');
+               const cur = parseInt(fb.style.left);
+               fb.style.left = cur + 60 + "px";
+           }, 200);
        };
    });
-    setInterval(function () {
-        const fb = document.getElementById('fb');
-        const cur = parseInt(fb.style.left);
-        fb.style.left = cur + 60 + "px";
-    }, 200);
+    
 
 }());
+
+
+
+window.addEventListener("click",(e)=>{
+    console.log(e);
+})

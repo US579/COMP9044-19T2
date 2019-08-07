@@ -14,8 +14,6 @@ foreach (@ARGV){
 }
 
 foreach  $i (0..$#arg-1){
-
-
 $issame=1;
 foreach $f1 (@arg){
     foreach $f2 (@arg){
