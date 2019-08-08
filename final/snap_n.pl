@@ -18,6 +18,6 @@ foreach $word (@arr){
 
 foreach $k (@kk){
     if ( $dic{$k} == $num){
-        print $k;
+        print "Snap: $k\n";
     }
 }
