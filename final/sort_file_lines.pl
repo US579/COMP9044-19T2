@@ -1,35 +1,35 @@
 #!/usr/bin/perl -w
 
-open F,"<",$ARGV[0] or die ;
-@arr=<F>;
+open F,"<",$ARGV[0] or die;
+@array=<F>;
 close F;
 
 
-
+foreach my $w (@array){
+    $dic{$w}=length($w);
+}
 
 sub comp{
-    return $dict{$a} <=> $dict{$b};
+    return $dic{$a} <=> $dic{$b};
 }
 
 
-foreach $line (@arr){
-    $dict{$line} =length($line);
-}
-
-@ll = sort comp @arr;
+@l = sort comp @array;
 
 
-$firstlen=length($ll[0]);
-foreach $line (@ll){
-    if (length($line) ==$firstlen){
-        push @ar , $line;
+$firstlen=length($array[0]);
+
+foreach $line (@l){
+    if (length($line) == $firstlen){
+        push @arr , $line;
     }else{
-        foreach $i (sort(@ar)){
-            print "$i";
+
+        foreach $len (sort(@arr)){
+            print $len;
         }
-        @ar =();
+        @arr =();
         $firstlen = length($line);
-        push @ar,$line;
+        push @arr ,$line;
     }
 }
-print @ar;
+print @arr;
