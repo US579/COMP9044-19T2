@@ -16,17 +16,14 @@ foreach $x (glob "$dir1/*"){
 sub iden{
     my ($f1,$f2) = @_;
     return 0  if ! -r $f1 || ! -r $f2 ;
-    return comp($f1,$f2);
+    return comp($f1) eq comp($f2);
 }
 
 sub comp{
-    my ($f1,$f2) = @_;
+    my ($f ) = @_;
     open F ,"<" ,$f1 or die;
     @arr=<F>;
     close F;
 
-    open F ,"<" ,$f2  or die;
-    @arr1=<F>;
-    close F;
-    return join "",@arr eq join "" ,@arr1;
+    return join "",@arr;
 }
