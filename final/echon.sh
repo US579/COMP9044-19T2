@@ -8,7 +8,16 @@ then
 fi
 
 n=$1
-if 
+
+if test $1 -gt 0  2>/dev/null
+then
+    :
+else
+    echo "$0 must be interger"
+    exit 1;
+fi
+
+
 
 
 
